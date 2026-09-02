@@ -30,6 +30,7 @@
       <a href="#claims">Claims</a>
       <a href="#risks">Risks</a>
       <a href="#budget">Budget</a>
+      <a href="protocol.html">What we build</a>
       <a href="evidence.html">Evidence</a>
     </nav>
     <span class="spacer"></span>
@@ -273,97 +274,107 @@
   <!-- ─────────────────────────── PHASES ─────────────────────────── -->
   <section id="phases">
     <p class="eyebrow"><b>Tide table</b> · the 25 days</p>
-    <h2>Six phases. Each ends with a number, not a feature.</h2>
-    <p class="lede">Ordered by dependency. Nothing in a later phase can be measured until the earlier one produced
-      its artifact. Days are calendar days from 2 September.</p>
+    <h2>Six phases. Each one builds a piece of Tideline v2 and produces the receipt that it works.</h2>
+    <p class="lede">Every phase is a build. The number at the end of it is not a separate activity — it is how we
+      know the thing we just built does what we said. MEME and THOL are not other people's products; they are
+      public exam papers that every memory system sits, which is what makes a score mean anything. Days are
+      calendar days from 2 September.</p>
 
     <div class="phase">
-      <div class="d"><b>Phase 0</b>Days 1–3<br>Baseline</div>
+      <div class="d"><b>Phase 0</b>Days 1–3<br>Instrument</div>
       <div>
-        <h3>Measure the store we have before touching it.</h3>
-        <p>Write the MEME adapter (four methods over the Tideline API) and run one seed on current Tideline
-          with the cost tracker on. Run one THOL-protocol session pair on a Brigade task with the four billed
-          token classes logged. Measure dependency-edge extraction recall on MEME episodes — MemoRepair shows
-          1% missing edges leaks 17.7%, so this number governs everything after it.</p>
-        <p class="out"><b>Artifact:</b> three baseline numbers — MEME (Cas/Abs/Del + $/episode), billed $ per
-          solved task, edge recall. Nobody in the category has published any of the three.</p>
+        <h3>Build: the harness that will grade every later phase.</h3>
+        <p>A four-method adapter that lets any standard memory exam drive the Tideline API, and a billing ledger
+          in the eval harness that records the four token classes a provider actually charges for — fresh input,
+          cache write, cache read, output. Then run today's Tideline through both, untouched, so the rest of the
+          month has a starting line. The third reading is dependency-edge extraction recall: MemoRepair shows 1%
+          of missing edges leaks 17.7%, so this number bounds what Phase 2 can possibly achieve.</p>
+        <p class="out"><b>Receipt:</b> where Tideline stands today on correctness-under-change, on dollars per
+          solved task, and on edge recall. Nobody in the category has published any of the three, about
+          themselves or anyone else.</p>
       </div>
     </div>
 
     <div class="phase">
-      <div class="d"><b>Phase 1</b>Days 4–8<br>Protocol</div>
+      <div class="d"><b>Phase 1</b>Days 4–8<br>Foundation</div>
       <div>
-        <h3>Write the protocol as something that runs.</h3>
-        <p><code>SPEC.md</code>: the fact schema, the label lattice with join = intersection of readers, the eight
-          operations as pre/post-conditions, I1–I8 as statements, four theorems with proof sketches.
-          A <strong>reference model</strong> in a few hundred lines of pure TypeScript — naive, obviously correct,
-          the oracle. A <strong>conformance suite</strong> in property-based tests over random lattices, fact DAGs and
-          membership churn: recall never differs on facts the reader can't see; no derivation lowers a label;
-          purge leaves no provenance survivor; audit replay agrees with ground truth; no prefix is shared past a
-          label boundary.</p>
-        <p class="out"><b>Artifact:</b> the protocol, executable. Runs green on the reference model; runs red on
-          current Tideline at the exact invariants the gap list predicts.</p>
+        <h3>Build: the protocol, as code that runs.</h3>
+        <p>The fact schema every later phase writes against — value, valid interval, label, provenance,
+          dependencies — plus the label lattice where user, team, project and company memory are one mechanism
+          rather than four stores. Then a reference implementation in a few hundred lines of plain TypeScript,
+          deliberately naive so it is obviously correct, and a conformance suite that generates random
+          organizations, fact graphs and staff changes and checks the eight invariants hold under all of them.</p>
+        <p class="out"><b>Receipt:</b> the suite runs green against the reference model and red against today's
+          Tideline at exactly the gaps we already found by reading the code. From here, every line written for
+          the rest of the month is checked automatically.</p>
       </div>
     </div>
 
     <div class="phase">
-      <div class="d"><b>Phase 2</b>Days 9–14<br>Change &amp; absence</div>
+      <div class="d"><b>Phase 2</b>Days 9–14<br>Change</div>
       <div>
-        <h3>Model 1: facts that change, and facts that stop being known.</h3>
-        <p>Add <code>depends_on</code> edges with the rule text stored verbatim (MEME shows extraction that
-          decomposes the rule is why Mem0 and Graphiti fail), and propagation inside <code>invalidate()</code>:
-          rule present → recompute the dependent; no rule → mark it unknown. Replace the status flag with
-          <strong>four-valued belief cells</strong> (true / false / contradicted / unknown-since) merged by the
-          knowledge-order join, so "I no longer know" is a value the store computes rather than a sentence the
-          prompt hopes for. Cost bound: O(reachable dependents), zero LLM passes over the store.</p>
-        <p class="out"><b>Artifact:</b> MEME ×3 seeds with the cost column. Target: Cascade and Absence ≥ 0.40 at
-          ≤ 2× the baseline's $0.056/episode. The paper's only known closure costs ~70×.</p>
+        <h3>Build: memory that stays correct when a fact changes.</h3>
+        <p>Dependency edges that carry the rule in the words it was written in, and propagation on supersession:
+          when the deploy target changes, the facts that depended on it either recompute or are marked unknown —
+          without a language model pass over the store. Underneath it, four-valued belief cells so <em>"I no
+          longer know"</em> is a value the store computes rather than a sentence the prompt hopes for. This is
+          the mechanism that makes a self-updating company page possible at all.</p>
+        <p class="out"><b>Receipt:</b> the correctness-under-change exam, three seeds, with the cost column
+          beside it. The only published system that passes it today costs seventy times the baseline and wrecks
+          plain recall doing so.</p>
       </div>
     </div>
 
     <div class="phase">
       <div class="d"><b>Phase 3</b>Days 15–18<br>Trust</div>
       <div>
-        <h3>Model 2: what is true is what independent sources agree on.</h3>
-        <p>Replace "confirmed after three reads" with a <strong>source-reliability fixed point</strong>
-          (TruthFinder / Knowledge Vault lineage): sources are principals, tools and channels; reliability and
-          fact truth are estimated jointly; convergence is provable. It composes with labels because sources
-          already carry them. RA-RAG did this for retrieval corpora; nobody has run the joint fixed point over a
-          persistent agent store.</p>
-        <p class="out"><b>Artifact:</b> conflict-slice numbers on ConflictBank (label-blind) and MMA-Bench, and the
-          exposure-validates-truth loop removed with a measured replacement.</p>
+        <h3>Build: confidence that comes from agreement, not from repetition.</h3>
+        <p>Today Tideline promotes a belief after it has been read three times, which means exposure validates
+          truth — a fact becomes trusted by being used. Replace that with a joint estimate over sources and
+          claims: people, tools and channels each carry a reliability that is inferred from where they agree and
+          disagree, and a fact's confidence follows from that. It converges provably, and it composes with the
+          labels because every source already has one.</p>
+        <p class="out"><b>Receipt:</b> conflict-resolution scores on the public conflict benchmarks, and the
+          old self-reinforcing loop deleted with a measured replacement rather than an opinion.</p>
       </div>
     </div>
 
     <div class="phase">
       <div class="d"><b>Phase 4</b>Days 19–23<br>Cost</div>
       <div>
-        <h3>Model 3: inject with a guarantee, assemble for the cache, bill it honestly.</h3>
-        <p>Label-ordered prompt assembly in Brigade with secret nonces at label boundaries (I4): the company block
-          is byte-identical for every employee and cached once; private blocks sit behind a nonce nobody outside
-          the compartment holds. <strong>Conformal risk control on injection</strong> — the loss is retrieval
-          distortion, the constraint is a billed-token budget — replacing top-k. Then the honest measurement:
-          THOL protocol, ten runs per task, four billed classes, cost per <em>solved</em> task, plus AgentLeak
-          C2/C4/C5 and ForgetEval. Agent Memory Leaderboard cycle-2 submission on day 19.</p>
-        <p class="out"><b>Artifact:</b> billed $ per solved task with and without Tideline, the cache-read share,
-          a leak rate per channel, and an erasure receipt that verifies.</p>
+        <h3>Build: the layer that makes memory cheaper instead of more expensive.</h3>
+        <p>Prompt assembly ordered by label, so the company block is byte-identical for every employee and the
+          provider caches it once for the whole organization, while private compartments sit behind a boundary
+          that nobody outside them can probe. Injection under a budget: instead of "send the top five", send the
+          set that provably holds retrieval quality above a bound for the dollars available. Both live in
+          Brigade's assembler, which is the only place in the stack that can actually control cache placement.</p>
+        <p class="out"><b>Receipt:</b> billed dollars per solved task with and without Tideline under the public
+          session-cost protocol, the cache-read share, a leak rate per channel, and an erasure receipt that
+          verifies. Submitted to the public leaderboard whose next cycle opens 20 September.</p>
       </div>
     </div>
 
     <div class="phase">
-      <div class="d"><b>Phase 5</b>Days 24–25<br>Write-up</div>
+      <div class="d"><b>Phase 5</b>Days 24–25<br>Record</div>
       <div>
-        <h3>Say only what was measured.</h3>
-        <p>Whitepaper draft with the formal model, the four theorems, the conformance suite, and every number
-          from Phases 0–4 with its reproduction command. Send the MEME runner and results to the benchmark's
-          authors. Nothing on the site that is not on the evidence page.</p>
-        <p class="out"><b>Artifact:</b> a draft a hostile reviewer can check, and the foundation the product is
-          built on from day 26.</p>
+        <h3>Build: the document that makes the work checkable.</h3>
+        <p>The formal model, the four theorems, the conformance suite and every number from Phases 0–4 with the
+          command that reproduces it. The runner and results go to the exam's authors, because a score nobody
+          else can reproduce is marketing — which is precisely the criticism this brief makes of everyone
+          else's numbers.</p>
+        <p class="out"><b>Receipt:</b> a draft a hostile reader can check line by line, and a foundation the
+          product is built on from day 26 without revisiting any of it.</p>
       </div>
+    </div>
+
+    <div class="callout" style="margin-top:40px">
+      <p><strong>What this is not.</strong> No day in this plan is spent evaluating a competitor's product. The
+      benchmarks are standardized tests with public code and public data; running Tideline through them is how a
+      claim becomes a fact. The alternative is what the field does now — every vendor scores itself on its own
+      test and asks to be believed.</p>
     </div>
   </section>
 
-  <!-- ─────────────────────────── CLAIMS ─────────────────────────── -->
   <section id="claims">
     <p class="eyebrow">Claims</p>
     <h2>What we will be allowed to say on day 25, and what we won't.</h2>

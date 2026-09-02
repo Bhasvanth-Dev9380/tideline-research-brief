@@ -9,6 +9,7 @@ A two-page brief on the 25 days (2–27 September 2026) that build Tideline v2's
 | Page | What it is |
 |---|---|
 | [`index.html`](index.html) | The brief. The moment, the thesis (a protocol and three models, not an algorithm), what is already verified, the six phases with the artifact each ends in, what will and will not be claimed, risks as an opponent would argue them, budget. |
+| [`protocol.html`](protocol.html) | What we build. The design Tideline v2 is built to: one store with labels instead of separate personal and company memories, the eight rules as property tests, the five doors into company memory, the three models, and how Tideline / Grokbot / living pages fit together. |
 | [`evidence.html`](evidence.html) | Every figure on the brief with its source: benchmarks, market and competitor claims (labelled vendor-reported), prior art cited instead of claimed, and the Tideline internals referenced. |
 
 ## Rules this brief follows

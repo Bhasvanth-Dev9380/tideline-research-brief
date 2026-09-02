@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="color-scheme" content="light" />
+<title>Tideline — What we are building</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;450;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/brief.css">
+<style>
+  .hero { padding: 64px 0 40px; }
+  .hero h1 { max-width: 18ch; }
+  .inv { border-top: 1px solid var(--line); padding: 16px 0 4px; display: grid;
+    grid-template-columns: 92px 1fr; gap: 20px; }
+  .inv:first-of-type { border-top: 1px solid var(--ink); }
+  @media (max-width: 700px) { .inv { grid-template-columns: 1fr; gap: 6px; } }
+  .inv .id { font-family: var(--font-mono); font-size: .8rem; color: var(--kelp-dk); font-weight: 500; padding-top: 3px; }
+  .inv h3 { margin-bottom: 5px; }
+  .inv .why { font-size: .84rem; color: var(--ink-mute); margin-top: 6px; }
+  .inv .why b { color: var(--ink-soft); font-weight: 500; }
+  .door { border-top: 1px solid var(--line); padding: 14px 0 6px; }
+  .door:first-of-type { border-top: 1px solid var(--ink); }
+  .door h3 { margin-bottom: 3px; font-size: 1rem; }
+  .door p { margin-bottom: 0; font-size: .875rem; }
+  .layers { font-family: var(--font-mono); font-size: .78rem; line-height: 1.75; color: var(--ink-soft);
+    background: var(--sunk); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; overflow-x: auto; }
+  .layers b { color: var(--ink); font-weight: 500; }
+  .layers .m { color: var(--kelp-dk); }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-in">
+    <span class="mark"><a href="index.html">Tideline <span class="dot">/</span> Research brief</a></span>
+    <nav>
+      <a href="index.html">Brief</a>
+      <a href="protocol.html" aria-current="page">What we build</a>
+      <a href="evidence.html">Evidence</a>
+    </nav>
+    <span class="spacer"></span>
+    <span class="stamp">draft 0.1 · 3 Sep 2026</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="hero" style="border-bottom:0">
+    <p class="eyebrow">What we build</p>
+    <h1>One store, one rule about who may read a fact.</h1>
+    <p class="lede">The brief says what the month produces and how each claim gets checked. This page says what
+      the thing actually is. It is the design Tideline v2 is built to, written so it can be argued with —
+      every mechanism, what it is for, and where it came from.</p>
+  </section>
+
+  <section id="shape">
+    <p class="eyebrow">The shape</p>
+    <h2>Personal memory and company memory are the same mechanism.</h2>
+    <div class="two">
+      <div>
+        <p>The obvious way to build a company brain is two stores: a private one per person and a shared one for
+          the organization, with something that copies between them. Every product in the field is built that
+          way, and it is the source of their leaks — the copy step is where a private fact quietly becomes a
+          public one, and where a summary of five private facts becomes readable by someone who could not read
+          any of the five.</p>
+        <p>Tideline has one store. Every fact carries a <strong>label</strong>, which is nothing more than the
+          set of people who may read it. <code>alice</code> is a label. <code>team:payments</code> is a label.
+          <code>company</code> is a label. "Personal memory" is the view of the store where the label is one
+          person; "company memory" is the view where the label is everyone. There is no copy step, because there
+          is nothing to copy between.</p>
+        <p>Labels hold references to groups, not lists of people. When someone leaves the payments team, the
+          directory changes and every payments fact becomes invisible to them on their next question — no
+          re-indexing, no propagation delay. The incumbents rebuild an index instead: between thirty minutes and,
+          on a large enough site, more than a week.</p>
+      </div>
+      <div>
+        <div class="layers">
+<b>fact</b>
+  value        <span class="m">"deploy target is Thandrel Infra"</span>
+  valid        <span class="m">from 14 Aug, until —</span>
+  label        <span class="m">team:platform</span>
+  provenance   <span class="m">← msg#8821, fact#4410</span>
+  depends on   <span class="m">fact#4410, rule: "logs drain</span>
+               <span class="m">follows the deploy target"</span>
+  written by   <span class="m">dilip, via slack connector</span>
+</div>
+        <p class="fine" style="margin-top:14px">Six fields. Everything the protocol guarantees follows from
+          these and from one rule: a fact made out of other facts is readable only by people who could read all
+          of them.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="invariants">
+    <p class="eyebrow">The eight rules</p>
+    <h2>Each one is a property test, not a paragraph.</h2>
+    <p class="lede">These are written as executable checks in Phase 1 and stay green for the life of the system.
+      A store that passes them cannot leak a private fact into company memory, cannot report a stale value as
+      current, and cannot be probed through the provider's cache — whatever is built on top of it later.</p>
+
+    <div style="margin-top:34px">
+      <div class="inv">
+        <div class="id">I1</div>
+        <div>
+          <h3>A fact from an untrusted source cannot overwrite a trusted one.</h3>
+          <p>Tool output, a retrieved web page and a distilled summary are all untrusted by default. None of them
+            may author an identity, a preference or a correction, and none may supersede something a person said.</p>
+          <p class="why"><b>Why:</b> this is how a poisoned document rewrites what the company believes. Tideline
+            has the gate today; two paths bypass it and get closed.</p>
+        </div>
+      </div>
+
+      <div class="inv">
+        <div class="id">I2</div>
+        <div>
+          <h3>A derived fact is as restricted as its most restricted source.</h3>
+          <p>Summaries, consolidations, dream-pass merges and generated pages take the intersection of their
+            sources' readers. Consolidation runs inside a label, never across.</p>
+          <p class="why"><b>Why:</b> otherwise summarising is a laundering machine — the documented failure in
+            Glean's project artifacts, Copilot's generated documents and Salesforce's audit objects.
+            <b>Prior art:</b> Denning 1976; Microsoft's Fides states exactly this rule for model outputs.</p>
+        </div>
+      </div>
+
+      <div class="inv">
+        <div class="id">I3</div>
+        <div>
+          <h3>What you may not read does not exist for you.</h3>
+          <p>The candidate set is filtered by label before ranking, never after. Two stores that agree on what you
+            may read return identical answers — same content, same count, same order, same scores, same time.</p>
+          <p class="why"><b>Why:</b> filtering after retrieval leaks through what is missing, how many results
+            came back and how long it took. Measured at 86% structural leakage in the published study.</p>
+        </div>
+      </div>
+
+      <div class="inv">
+        <div class="id">I4</div>
+        <div>
+          <h3>The company block is cached once for everyone; private blocks cannot be probed.</h3>
+          <p>Prompt blocks are ordered from most public to most private, and a boundary marker known only to the
+            compartment's members sits at each step up. The organization-wide memory is byte-identical for every
+            employee, so the provider caches it once and everyone reads it cheaply.</p>
+          <p class="why"><b>Why:</b> providers cache by exact prefix across the whole account. Without this,
+            either private facts sit in a cache other employees can time — a published attack — or nothing is
+            shared and everyone pays full price. <b>Prior art:</b> the same construction exists one layer down,
+            in vLLM's cache-salting proposal; this is it applied to a black-box provider by an assembler that
+            knows the labels.</p>
+        </div>
+      </div>
+
+      <div class="inv">
+        <div class="id">I5</div>
+        <div>
+          <h3>When a fact changes, everything that depended on it recomputes or says it no longer knows.</h3>
+          <p>Dependency edges carry the rule in the words it was written in. On supersession, the store walks
+            only the affected dependents: with a rule, it computes the new value; without one, it marks the
+            dependent unknown and asks for confirmation. No model pass over the store.</p>
+          <p class="why"><b>Why:</b> this is the failure the whole field shares — 3% and 1% on the two public
+            tasks that test it. <b>Prior art:</b> truth maintenance from 1979, incremental view maintenance from
+            1993, and this year MemoRepair and MemTX. What is open is doing it at ordinary cost, which is the
+            number Phase 2 exists to produce.</p>
+        </div>
+      </div>
+
+      <div class="inv">
+        <div class="id">I6</div>
+        <div>
+          <h3>Deleting a fact deletes what was built from it, and leaves a receipt.</h3>
+          <p>Purge follows provenance to every descendant, destroys the per-fact key, and appends a receipt to a
+            hash-chained log that a third party can verify without seeing any content.</p>
+          <p class="why"><b>Why:</b> departures and erasure requests. Tideline has the field for provenance and
+            nothing writes it, so the cascade is currently inert — that is a Phase 2 fix, and its quality is
+            bounded by the edge-recall number from Phase 0.</p>
+        </div>
+      </div>
+
+      <div class="inv">
+        <div class="id">I7</div>
+        <div>
+          <h3>"Could this person have known this, on that day?" is answerable from the log.</h3>
+          <p>Three clocks on every fact: when it was true in the world, when the store learned it, and when the
+            reader was entitled to see it. Membership changes and declassifications are events in the same log.</p>
+          <p class="why"><b>Why:</b> it is the question asked in an incident review and by a regulator, and no
+            memory product can answer it — Copilot's own documentation says memory actions generate no audit
+            entries at all.</p>
+        </div>
+      </div>
+
+      <div class="inv">
+        <div class="id">I8</div>
+        <div>
+          <h3>A fact's audience grows only through a door, and every contributor holds a key.</h3>
+          <p>Nothing widens automatically. Publishing something to a wider audience requires the authority of
+            everyone whose facts it was built from — not merely whoever touched it last — and produces a receipt.</p>
+          <p class="why"><b>Why:</b> the alternative is that a manager's summary of five private notes silently
+            becomes company knowledge. <b>Prior art:</b> robust declassification (2001); MemTX blocks the same
+            move at commit time. The all-contributors rule is ours.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="doors">
+    <p class="eyebrow">Company memory</p>
+    <h2>Five doors in, and nothing else.</h2>
+    <p class="lede">"Company memory" is the label everyone can read. A fact can arrive there in exactly five
+      ways, each one audited. Anything else is a bug and the conformance suite fails.</p>
+
+    <div style="margin-top:30px">
+      <div class="door"><h3>It was already public.</h3>
+        <p>A public channel, the handbook, an org-wide document. The label comes from the channel it arrived
+          through — never from reading the content and guessing.</p></div>
+      <div class="door"><h3>The owner published it.</h3>
+        <p>A person moves their own fact outward, signed, with a receipt. An agent cannot do this on their behalf
+          without an explicit approval step.</p></div>
+      <div class="door"><h3>An administrator promoted it.</h3>
+        <p>Logged as an override, with the owner notified. Available, visible, and never silent.</p></div>
+      <div class="door"><h3>It was derived from things already public.</h3>
+        <p>Automatic, and safe precisely because of I2 — the derived label is the intersection, so this door can
+          only ever produce something at most as wide as its narrowest source.</p></div>
+      <div class="door"><h3>It is a statistic, not a fact.</h3>
+        <p>Aggregate release under a privacy budget, for questions like "how often does this come up" where no
+          individual record should be readable. Opt-in, off by default.</p></div>
+    </div>
+  </section>
+
+  <section id="math">
+    <p class="eyebrow">The three models</p>
+    <h2>Where a guarantee replaces a guess.</h2>
+    <div class="grid g3" style="margin-top:26px">
+      <div class="card">
+        <h3>Belief with four values</h3>
+        <p class="fine">A fact is true, false, contradicted, or no-longer-known. Merging follows the algebra
+          rather than a status flag, which is what gives "I don't know any more" a definition instead of a hopeful
+          sentence in a prompt. Feeds I5.</p>
+      </div>
+      <div class="card">
+        <h3>Trust from agreement</h3>
+        <p class="fine">Source reliability and fact truth estimated together, converging provably. Replaces the
+          current rule that promotes a belief after three reads — a loop where being used makes something true.
+          Sources are people, tools and channels, which already carry labels.</p>
+      </div>
+      <div class="card">
+        <h3>Injection under a budget</h3>
+        <p class="fine">Instead of "send the top five", send the set that holds retrieval quality above a bound
+          for the dollars available, with a distribution-free guarantee. Turns "we cut tokens" into "we stayed
+          within this much of the best possible for this budget".</p>
+      </div>
+    </div>
+    <p class="fine" style="margin-top:24px">None of the three is a new theorem, and the brief does not claim one.
+      The information-theoretic bound on how small memory can get was published in July by other people. What is
+      open in all three cases is the operating point — nobody has run them over a labelled, time-aware,
+      dependency-carrying store and reported what it costs.</p>
+  </section>
+
+  <section id="product">
+    <p class="eyebrow">How it ships</p>
+    <h2>Tideline is the part that is sold.</h2>
+    <div class="two">
+      <div>
+        <p><strong>Tideline</strong> is the store and this protocol: labels, doors, propagation, receipts, cache
+          placement, and the numbers. It is private, and it is what an enterprise buys.</p>
+        <p><strong>Grokbot</strong> is the workspace people see — agents, channels, the admin console. In protocol
+          terms it is a client: it proves who you are, runs agents on your behalf rather than as principals of
+          their own, and holds no memory itself. Every write goes through the store, so the workspace cannot
+          launder anything into company memory even by accident.</p>
+        <p><strong>Living pages</strong> are the visible payoff. A page is a derived fact: it carries the
+          intersection label of its sources, so you only see pages built from things you may read, and it
+          updates itself through I5 when a fact under it changes. A self-updating company wiki and
+          correctness-under-change are the same mechanism, seen from two ends.</p>
+      </div>
+      <div>
+        <div class="callout">
+          <p><strong>Brigade stays public and MIT.</strong> The memory core it ships with remains open. Tideline
+          v2 is a separate private package that plugs into the memory slot Brigade already exposes, so the
+          enterprise build is upstream Brigade plus one directory. Plumbing goes upstream where everyone
+          benefits; the protocol and the models stay private.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <p class="foot">Prior work is cited on the <a href="evidence.html">evidence page</a>, including everything on
+    this page that already exists elsewhere. Where a mechanism is ours, it says so; where it is 1976's, it says
+    that too.</p>
+
+</div>
+</body>
+</html>
