@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="color-scheme" content="light" />
+<title>Tideline — The exams</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;450;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/brief.css">
+<style>
+  .hero { padding: 64px 0 40px; }
+  .hero h1 { max-width: 20ch; }
+  .episode { background: var(--sunk); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 22px 24px; font-size: .9rem; }
+  .episode .t { font-family: var(--font-mono); font-size: .7rem; color: var(--ink-faint);
+    letter-spacing: .08em; text-transform: uppercase; margin-bottom: 3px; }
+  .episode .said { color: var(--ink); margin: 0 0 16px; }
+  .episode .said b { font-weight: 600; }
+  .episode .q { border-top: 1px solid var(--line); padding-top: 14px; margin-top: 4px; }
+  .episode .ans { font-family: var(--font-mono); font-size: .8rem; margin: 5px 0 0; }
+  .episode .bad { color: #9a3412; }
+  .episode .good { color: var(--kelp-dk); }
+  .exam { border-top: 1px solid var(--ink); padding: 20px 0 8px; margin-top: 26px; }
+  .exam .hdr { display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; margin-bottom: 8px; }
+  .exam .hdr h3 { margin: 0; }
+  .exam .hdr .cost { font-family: var(--font-mono); font-size: .72rem; color: var(--kelp-dk); }
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 34px; }
+  @media (max-width: 860px) { .split { grid-template-columns: 1fr; gap: 22px; } }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-in">
+    <span class="mark"><a href="index.html">Tideline <span class="dot">/</span> Research brief</a></span>
+    <nav>
+      <a href="index.html">Brief</a>
+      <a href="protocol.html">Design</a>
+      <a href="build.html">The build</a>
+      <a href="benchmarks.html" aria-current="page">Exams</a>
+      <a href="landscape.html">Field</a>
+      <a href="prior-art.html">Prior art</a>
+      <a href="evidence.html">Evidence</a>
+    </nav>
+    <span class="spacer"></span>
+    <span class="stamp">draft 0.1 · 3 Sep 2026</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="hero" style="border-bottom:0">
+    <p class="eyebrow">The exams</p>
+    <h1>We are not testing competitors. We are sitting the same exam they sat.</h1>
+    <p class="lede">A benchmark is not a product. MEME is a hundred scripted situations with public code and
+      public data, written by academics at KAIST and Tübingen. Every memory system runs the same hundred. Our
+      store sits it too — before we change anything, and after — and the difference between those two numbers
+      is the entire claim.<br><br>
+      The alternative is what the field does now: each vendor invents its own test, scores itself, and asks to
+      be believed. One company in this category publishes a table of results that appears on no leaderboard and
+      in no paper, only on its own website, with a footnote saying to treat it as vendor-reported.</p>
+  </section>
+
+  <section id="meme">
+    <p class="eyebrow">The main exam</p>
+    <h2>What MEME actually asks.</h2>
+    <div class="split">
+      <div>
+        <p>Every other memory benchmark asks a version of <em>"I told you something earlier — can you find it?"</em>
+          Those are solved. Systems score in the nineties, the differences are noise, and one of them has a
+          measured six percent error rate in its own answer key.</p>
+        <p>MEME asks the question a company brain exists to answer: <strong>a fact changed — do you know what
+          else is now wrong?</strong> Its hundred episodes are conversations spread over many sessions, with
+          filler in between, where something stated early is revised later and other things depended on it.</p>
+        <p>It scores six things. Three are ordinary recall. The three that matter are these:</p>
+        <ul class="tight">
+          <li><strong>Cascade</strong> — a rule was stated, the thing it depended on changed. Does the store
+            follow the rule to the new answer?</li>
+          <li><strong>Absence</strong> — same change, but no rule covers the dependent. Does the store say it no
+            longer knows, or confidently repeat the stale value?</li>
+          <li><strong>Deletion</strong> — the user asked for something to be removed. Is it actually gone, or
+            does it come back through a summary?</li>
+        </ul>
+        <p>There is a filter that stops a system scoring by accident: to get credit for a change, it has to have
+          known the original value first. You cannot pass by never having learned anything.</p>
+      </div>
+      <div>
+        <div class="episode">
+          <p class="t">Session 3</p>
+          <p class="said">"Our deploy target is <b>Narvex Cloud</b>. The logs drain always follows the deploy
+            target, and the Docker image tag follows the drain."</p>
+          <p class="t">Sessions 4–14 · filler</p>
+          <p class="said" style="color:var(--ink-mute)">Unrelated conversation, roughly thirty-two thousand
+            tokens of it.</p>
+          <p class="t">Session 15</p>
+          <p class="said">"We've moved the deploy target to <b>Thandrel Infra</b>."</p>
+          <div class="q">
+            <p class="t">Asked afterwards · cascade</p>
+            <p style="margin:0">Where does the logs drain point?</p>
+            <p class="ans bad">every system in the study: "Narvex Cloud" ✗</p>
+            <p class="ans good">required: Thandrel Infra — the rule was stated, apply it ✓</p>
+          </div>
+          <div class="q">
+            <p class="t">Asked afterwards · absence</p>
+            <p style="margin:0">What is the CI configuration set to?</p>
+            <p class="ans bad">every system in the study: the old value, stated confidently ✗</p>
+            <p class="ans good">required: "that depended on the deploy target and has not been
+              re-established" ✓</p>
+          </div>
+        </div>
+        <p class="fine" style="margin-top:14px">Across six systems and a hundred episodes: <strong>3%</strong> on
+          cascade, <strong>1%</strong> on absence. Not one practical configuration passes. The authors tried
+          better prompts, deeper retrieval, less noise and a stronger answering model; none of it moved.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="why">
+    <p class="eyebrow">Why this one</p>
+    <h2>Four reasons it is the right exam to be graded on.</h2>
+    <div class="grid g2" style="margin-top:24px">
+      <div class="card">
+        <h3>It tests the product, not the plumbing</h3>
+        <p class="fine">A company brain's job is to be right about a company that keeps changing. Pricing moves,
+          the owner of a service changes, a policy is reversed. Recall benchmarks never test this. If we pass
+          recall and fail this, we have built a search engine with extra steps.</p>
+      </div>
+      <div class="card">
+        <h3>It is unsolved and not saturated</h3>
+        <p class="fine">Three percent and one percent. There is no ceiling effect to argue about and no crowd at
+          the top. A real result here is visible from a distance, and the failure is structural rather than a
+          tuning problem — the authors demonstrated that.</p>
+      </div>
+      <div class="card">
+        <h3>It has a cost column</h3>
+        <p class="fine">The harness already tracks tokens by class per episode. The one configuration that does
+          pass costs about seventy times the baseline and wrecks ordinary recall doing it. So the honest claim
+          is never a score alone — it is a score at a price, which is the pair nobody publishes.</p>
+      </div>
+      <div class="card">
+        <h3>Anyone can check us</h3>
+        <p class="fine">Code on GitHub, data on Hugging Face, a fixed judge, a documented adapter interface. We
+          publish our runner and our raw output; if we are wrong, someone re-runs it and says so. That is the
+          difference between a number and a claim.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="others">
+    <p class="eyebrow">The rest of the set</p>
+    <h2>What else gets run, and what each one is for.</h2>
+
+    <div class="exam">
+      <div class="hdr"><h3>Session cost, under the public protocol</h3><span class="cost">the bulk of the budget</span></div>
+      <p>Paired runs of the same coding task, with and without the memory layer, in isolated sessions on a pinned
+        model, ten repetitions, graded by a program rather than an opinion — and the metric is dollars per
+        <em>solved</em> task, so a tool cannot win by making the agent fail faster. This is the protocol that
+        found the most-starred compression tool in the category making sessions fifty-three percent
+        <em>more</em> expensive, because rewriting the conversation each turn destroys the provider's cache and
+        everything gets re-billed at full price.</p>
+      <p class="fine">Why it matters to us: it is the only honest way to say "cheaper", and it is a trap that has
+        already caught most of the field. We report the four billed token classes, not a token count.</p>
+    </div>
+
+    <div class="exam">
+      <div class="hdr"><h3>Leakage across memory channels</h3><span class="cost">no API cost</span></div>
+      <p>The only published harness that instruments the shared-memory channel between agents, rather than
+        checking the final answer for secrets. Its finding is the one that shapes our design: nearly half of the
+        leaks it measures pass through shared memory, and about forty percent are invisible to any audit that
+        only inspects outputs — the information moves agent to agent and never appears in a reply.</p>
+      <p class="fine">Why it matters to us: it is the test our compartment rules exist to pass, and it grades the
+        thing every vendor asserts without evidence.</p>
+    </div>
+
+    <div class="exam">
+      <div class="hdr"><h3>Forgetting</h3><span class="cost">no API cost</span></div>
+      <p>Maps one-to-one onto the four operations a store actually offers — write, recall, invalidate, purge —
+        and checks that removal removes. Cheap to run, and it catches the failure where a fact is deleted but
+        everything distilled from it survives, which is exactly the state our store is in today because nothing
+        writes provenance.</p>
+    </div>
+
+    <div class="exam">
+      <div class="hdr"><h3>Long-context recall</h3><span class="cost">modest</span></div>
+      <p>Run only in the larger, unsaturated variant, and only for credibility: a system that scores well on
+        change but badly on plain recall has traded one for the other. The small variant is saturated — one
+        vendor's ninety-nine percent turned out to be eight variants scored as a pass if any of them succeeded,
+        which the company itself described as a stunt.</p>
+    </div>
+
+    <div class="exam">
+      <div class="hdr"><h3>The public leaderboard</h3><span class="cost">free · opens 20 Sep</span></div>
+      <p>Add and search against a fixed interface, submitted to a third party who runs it. A hundred and
+        thirty-six teams registered for the current cycle. It is the least informative of the set and the most
+        useful politically: an independent listing nobody can accuse us of having designed.</p>
+    </div>
+
+    <p class="fine" style="margin-top:30px">Total for the full set: roughly seven hundred and fifty to three and
+      a half thousand dollars of API spend, and eight to eleven engineering days for the adapters. The
+      correctness exam alone is twenty-five to sixty dollars per seed — cheap enough that it runs after every
+      significant change rather than once at the end.</p>
+  </section>
+
+  <section id="honesty">
+    <p class="eyebrow">The rule</p>
+    <h2>What we do if the numbers are bad.</h2>
+    <div class="callout">
+      <p>Publish them anyway, and say what they bound. If dependency extraction turns out to be unreliable, the
+        result is "closure is limited by extraction quality, here is the measurement" — not a quiet change of
+        subject to a metric that looks better. The reason to run public exams at all is that they can say no;
+        a test that can only agree with us is decoration.</p>
+    </div>
+    <p class="fine" style="margin-top:22px">And our own numbers carry the same label we put on everyone else's
+      until someone independent re-runs them: vendor-reported.</p>
+  </section>
+
+  <p class="foot">Every figure on this page is sourced on the <a href="evidence.html">evidence page</a>.</p>
+
+</div>
+</body>
+</html>

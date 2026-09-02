@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="color-scheme" content="light" />
+<title>Tideline — The build</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;450;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/brief.css">
+<style>
+  .hero { padding: 64px 0 40px; }
+  .hero h1 { max-width: 17ch; }
+  pre.code { background: var(--sunk); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 18px 20px; overflow-x: auto; font-family: var(--font-mono); font-size: .775rem;
+    line-height: 1.7; margin: 0 0 18px; color: var(--ink-soft); }
+  pre.code .c { color: var(--ink-faint); }
+  pre.code .k { color: var(--kelp-dk); }
+  pre.code .s { color: var(--ink); font-weight: 500; }
+  .unit { border-top: 1px solid var(--ink); padding: 20px 0 10px; margin-top: 28px; }
+  .unit:first-of-type { margin-top: 0; }
+  .unit .hdr { display: flex; gap: 14px; align-items: baseline; flex-wrap: wrap; margin-bottom: 10px; }
+  .unit .hdr h3 { margin: 0; }
+  .unit .hdr .file { font-family: var(--font-mono); font-size: .75rem; color: var(--kelp-dk); }
+  .unit .hdr .tag { font-family: var(--font-mono); font-size: .65rem; text-transform: uppercase;
+    letter-spacing: .08em; color: var(--ink-mute); border: 1px solid var(--line); border-radius: 4px; padding: 2px 6px; }
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  @media (max-width: 860px) { .split { grid-template-columns: 1fr; gap: 20px; } }
+  .dayline { font-family: var(--font-mono); font-size: .7rem; color: var(--ink-faint);
+    letter-spacing: .08em; text-transform: uppercase; margin-bottom: 4px; }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-in">
+    <span class="mark"><a href="index.html">Tideline <span class="dot">/</span> Research brief</a></span>
+    <nav>
+      <a href="index.html">Brief</a>
+      <a href="protocol.html">Design</a>
+      <a href="build.html" aria-current="page">The build</a>
+      <a href="benchmarks.html">Exams</a>
+      <a href="landscape.html">Field</a>
+      <a href="prior-art.html">Prior art</a>
+      <a href="evidence.html">Evidence</a>
+    </nav>
+    <span class="spacer"></span>
+    <span class="stamp">draft 0.1 · 3 Sep 2026</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="hero" style="border-bottom:0">
+    <p class="eyebrow">The build</p>
+    <h1>Every file that changes, and what goes in it.</h1>
+    <p class="lede">This is the engineering plan for Tideline v2 — the modules written from scratch, the ones
+      amended, and the defects closed on the way through. Paths are the memory core as it stands in Brigade
+      today; the v2 work lands in a private package that implements the same interface, so the public store
+      keeps working and the enterprise build is upstream Brigade plus one directory.</p>
+  </section>
+
+  <section id="today">
+    <p class="eyebrow">Starting position</p>
+    <h2>What already works, and what is missing.</h2>
+    <div class="split">
+      <div>
+        <h3 style="margin-bottom:12px">Works today</h3>
+        <table class="data">
+          <tr><td>Origin filter runs <em>before</em> ranking</td><td class="num">records.ts</td></tr>
+          <tr><td>Supersession by subject key, bi-temporal close</td><td class="num">invalidate()</td></tr>
+          <tr><td>Write gate on source type, protected segments</td><td class="num">write-gate.ts</td></tr>
+          <tr><td>Typed link graph, twelve edge kinds</td><td class="num">links.ts</td></tr>
+          <tr><td>Append-only event log, crypto-shred</td><td class="num">records.ts</td></tr>
+          <tr><td>Eval harness with bootstrap intervals</td><td class="num">tideline/eval</td></tr>
+        </table>
+      </div>
+      <div>
+        <h3 style="margin-bottom:12px">Missing or broken</h3>
+        <table class="data">
+          <tr><td>No dependency edge; nothing propagates on change</td><td class="num">links.ts</td></tr>
+          <tr><td>Provenance field exists, nothing writes it</td><td class="num">extract.ts</td></tr>
+          <tr><td>Facts carry no principal; events carry no actor</td><td class="num">records.ts</td></tr>
+          <tr><td>Sub-agents run with full owner scope</td><td class="num">subagent-runner.ts</td></tr>
+          <tr><td>Belief confirmed after three reads</td><td class="num">dream.ts</td></tr>
+          <tr><td>Async embedder silently drops the vector lane</td><td class="num">hybrid.ts</td></tr>
+          <tr><td>Channel-authored facts trusted above owner facts</td><td class="num">server.ts</td></tr>
+          <tr><td>Memory-write tool sets no source type</td><td class="num">memory-tools.ts</td></tr>
+        </table>
+      </div>
+    </div>
+    <p class="fine" style="margin-top:20px">All eight were found by reading the code, not by inference. The
+      last four are fixed in passing during Phases 1 and 2 — they would each be a finding in a security review
+      of the paper, so they close before anything is published.</p>
+  </section>
+
+  <section id="schema">
+    <p class="eyebrow">Phase 1 · days 4–8</p>
+    <h2>The record every later phase writes against.</h2>
+    <p class="lede">The current record already carries a value, a validity interval and an origin. Three fields
+      are added and one is generalized. Everything else in the protocol is a consequence of these.</p>
+
+    <pre class="code"><span class="c">// the fact, after Phase 1</span>
+<span class="k">interface</span> <span class="s">Fact</span> {
+  id           : FactId
+  subject      : SubjectKey        <span class="c">// the slot this fact sets; drives supersession</span>
+  value        : string            <span class="c">// stored verbatim, never re-phrased</span>
+  validFrom    : Timestamp
+  validTo      : Timestamp | null  <span class="c">// closed on supersession</span>
+
+  <span class="s">label</span>        : Label            <span class="c">// NEW — who may read it. replaces origin</span>
+  <span class="s">provenance</span>   : FactId[]         <span class="c">// EXISTS, unwritten — sources this came from</span>
+  <span class="s">dependsOn</span>    : Dependency[]     <span class="c">// NEW — parents, each with its rule verbatim</span>
+  <span class="s">belief</span>       : Belief           <span class="c">// NEW — true | false | contradicted | unknown</span>
+
+  writtenBy    : Principal         <span class="c">// NEW — the person, not the agent</span>
+  via          : Channel           <span class="c">// slack | tool | extraction | direct</span>
+  sourceType   : SourceType        <span class="c">// drives the write gate</span>
+}
+
+<span class="k">interface</span> <span class="s">Dependency</span> { parent: FactId; rule?: string }  <span class="c">// rule kept as written</span>
+<span class="k">type</span> <span class="s">Label</span> = { readers: GroupRef[] }                <span class="c">// refs, never expanded lists</span></pre>
+
+    <div class="unit">
+      <div class="hdr"><h3>The label lattice</h3><span class="file">label.ts</span><span class="tag">new</span></div>
+      <div class="split">
+        <div>
+          <p>Four functions and one resolver. <code>join(a, b)</code> returns the label whose readers are the
+            intersection of both — the rule that makes a summary at least as private as its narrowest source.
+            <code>canRead(principal, label)</code> resolves group references against the directory at query time,
+            which is why removing someone from a team takes effect on their next question rather than after a
+            re-index.</p>
+          <p>Named compartments are labels, not types: <code>alice</code>, <code>team:payments</code>,
+            <code>project:apollo</code>, <code>company</code>. There is no separate personal store and no copy
+            step between stores, because there are no two stores.</p>
+        </div>
+        <div>
+          <pre class="code"><span class="k">join</span>(a, b)        <span class="c">// readers(a) ∩ readers(b)</span>
+<span class="k">leq</span>(a, b)         <span class="c">// a is at least as private as b</span>
+<span class="k">canRead</span>(p, label) <span class="c">// resolves groups live</span>
+<span class="k">readableBy</span>(p)     <span class="c">// index predicate for recall</span>
+
+<span class="c">// company memory is just:</span>
+{ readers: [<span class="s">"group:everyone"</span>] }</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="unit">
+      <div class="hdr"><h3>Reference model and conformance suite</h3><span class="file">model/ · conformance/</span><span class="tag">new</span></div>
+      <p>A few hundred lines of deliberately naive TypeScript that implement the protocol with no indexes and no
+        optimisation, so it is obviously correct by reading. It is the oracle. Beside it, property-based tests
+        that generate random organizations, fact graphs and staff changes, then assert the eight rules under all
+        of them — the recall of two stores that agree on what you may read is byte-identical; no sequence of
+        derivations ever widens a label; purge leaves no descendant; audit replay matches the simulation.</p>
+      <pre class="code"><span class="c">// the shape of the check that matters most</span>
+<span class="k">property</span>(<span class="s">"withheld is indistinguishable from absent"</span>, (store, principal, query) =&gt; {
+  <span class="k">const</span> visible = store.filter(f =&gt; canRead(principal, f.label))
+  <span class="k">return</span> deepEqual(
+    recall(store,   principal, query),   <span class="c">// full store</span>
+    recall(visible, principal, query),   <span class="c">// only what they may see</span>
+  )   <span class="c">// content, count, order, scores — and the time it took</span>
+})</pre>
+      <p class="fine">Runs green against the reference model, red against today's store at exactly the gaps
+        listed above. From here every line written for the rest of the month is checked automatically.</p>
+    </div>
+  </section>
+
+  <section id="change">
+    <p class="eyebrow">Phase 2 · days 9–14</p>
+    <h2>Memory that stays correct when a fact changes.</h2>
+    <p class="lede">This is the mechanism the whole field is missing, and the one that makes a self-updating
+      company page possible. Two modules and one amendment.</p>
+
+    <div class="unit">
+      <div class="hdr"><h3>Propagation on supersession</h3><span class="file">propagate.ts</span><span class="tag">new</span></div>
+      <div class="split">
+        <div>
+          <p>When a fact is superseded, walk <em>only</em> its dependents — not the store. For each one: if the
+            edge carries a rule, apply the rule to the new parent value and write the result, which supersedes
+            the stale child through the machinery that already exists. If it carries no rule, close the child
+            and mark it <code>unknown</code>, needing confirmation.</p>
+          <p>Rules are kept in the words they were written in. The published failure of the graph-based systems
+            is that their extraction decomposes the sentence into triples and the conditional wording is lost,
+            so nothing is left to apply later.</p>
+          <p>Cost is bounded by the number of reachable dependents, not the size of the store, and structured
+            rules need no model call at all. That bound is the whole result: the only system that passes this
+            exam today does it by having a frontier model rewrite the entire memory file on every ingest.</p>
+        </div>
+        <div>
+          <pre class="code"><span class="k">function</span> <span class="s">propagate</span>(old, next) {
+  <span class="k">for</span> (<span class="k">const</span> child <span class="k">of</span> dependents(old)) {
+    <span class="k">const</span> rule = edge(child, old).rule
+
+    <span class="k">if</span> (rule) {
+      assert({
+        subject: child.subject,
+        value  : apply(rule, next.value),
+        label  : join(child.label, next.label),
+        provenance: [...child.provenance, next.id],
+      })                       <span class="c">// auto-supersedes child</span>
+    } <span class="k">else</span> {
+      close(child)
+      child.belief = <span class="s">"unknown"</span>   <span class="c">// needs confirmation</span>
+    }
+  }
+}
+<span class="c">// acyclic: checked when the edge is inserted</span></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="unit">
+      <div class="hdr"><h3>Four-valued belief</h3><span class="file">belief.ts</span><span class="tag">new</span></div>
+      <p>A fact is <em>true</em>, <em>false</em>, <em>contradicted</em> (two sources disagree and neither wins yet)
+        or <em>unknown</em> (it was true, something upstream moved, and nothing has re-established it). Merging
+        follows the algebra rather than a status flag, so "I no longer know" is a value the store computes.
+        Today that state does not exist: a superseded dependent simply keeps its old value and gets recalled as
+        current, which is precisely what the absence half of the exam catches.</p>
+    </div>
+
+    <div class="unit">
+      <div class="hdr"><h3>Provenance producers</h3><span class="file">extract.ts · consolidate.ts · dream.ts</span><span class="tag">amend</span></div>
+      <p>Every path that creates a fact from other facts starts writing the sources it used, and taking the join
+        of their labels. The field is already in the record and nothing populates it, which is why deletion
+        currently removes a fact but leaves everything distilled from it in place. This is also the number that
+        bounds Phase 2: the published study shows one percent of missing edges leaves seventeen percent of
+        invalidated content still reachable.</p>
+    </div>
+  </section>
+
+  <section id="trust">
+    <p class="eyebrow">Phase 3 · days 15–18</p>
+    <h2>Confidence from agreement, not from repetition.</h2>
+    <div class="unit">
+      <div class="hdr"><h3>Source reliability</h3><span class="file">trust.ts</span><span class="tag">new</span></div>
+      <div class="split">
+        <div>
+          <p>The current rule promotes a belief to high confidence once it has been read three times. That means
+            exposure validates truth: a fact becomes trusted by being useful, and a wrong fact that keeps getting
+            retrieved becomes permanent. It is a measurable defect, not a style preference.</p>
+          <p>Replace it with a joint estimate. Sources — people, tools, channels, agents — each carry a
+            reliability. Facts carry a confidence. Neither is known; both are inferred from where sources agree
+            and disagree, iterated to a fixed point. Sources already carry labels, so this composes with the rest
+            of the protocol rather than sitting beside it.</p>
+        </div>
+        <div>
+          <pre class="code"><span class="c">// iterate to convergence</span>
+<span class="k">repeat</span> {
+  <span class="k">for</span> claim <span class="k">in</span> claims:
+    confidence[claim] = f(
+      Σ reliability[s] <span class="k">for</span> s <span class="k">in</span> sources(claim)
+    )
+  <span class="k">for</span> src <span class="k">in</span> sources:
+    reliability[src] = g(
+      confidence[c] <span class="k">for</span> c <span class="k">in</span> claims(src)
+    )
+} <span class="k">until</span> Δ &lt; ε</pre>
+          <p class="fine">Provable convergence, and it gives the admin console a real answer to "why does the
+            company believe this" — which sources, agreeing how strongly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cost">
+    <p class="eyebrow">Phase 4 · days 19–23</p>
+    <h2>The layer that makes memory cheaper instead of more expensive.</h2>
+
+    <div class="unit">
+      <div class="hdr"><h3>Label-ordered assembly</h3><span class="file">brigade: system-prompt/assembler.ts</span><span class="tag">amend</span></div>
+      <div class="split">
+        <div>
+          <p>Blocks are emitted most-public first, with a boundary marker at each step up in privacy known only
+            to that compartment's members. Two things follow. The company-wide block is byte-identical for every
+            employee, so the provider caches it once for the whole organization and everyone after the first
+            reads it at a tenth of the price. And a private block cannot be probed by someone outside its
+            compartment, because they cannot construct the prefix that precedes it.</p>
+          <p>This has to live in the assembler. A memory server speaking the standard protocol has no say in how
+            the host builds its request — which is the finding that decides the whole product shape.</p>
+        </div>
+        <div>
+          <pre class="code"><span class="c">// prompt, ordered by label</span>
+[ system + tools     ]  <span class="c">← stable, cached</span>
+[ company memory     ]  <span class="c">← same bytes for everyone</span>
+  <span class="k">boundary</span>(team:payments)
+[ team memory        ]
+  <span class="k">boundary</span>(alice)
+[ personal memory    ]
+[ conversation       ]
+[ this turn          ]  <span class="c">← only this is fresh</span></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="unit">
+      <div class="hdr"><h3>Injection under a budget</h3><span class="file">budget.ts</span><span class="tag">new</span></div>
+      <p>Instead of "send the top five", send the set that provably holds retrieval quality above a chosen bound
+        for the dollars available, with a distribution-free guarantee. It turns the category's standard claim —
+        "we cut tokens by N percent" — into something an enterprise can actually hold us to.</p>
+    </div>
+
+    <div class="unit">
+      <div class="hdr"><h3>Billing ledger</h3><span class="file">eval/ledger.ts</span><span class="tag">new</span></div>
+      <p>Records the four classes a provider charges for — fresh input, cache write, cache read, output — per
+        session, and reconciles the total against the actual bill. Everyone in the field reports tokens; the
+        published study shows a thirty-eight percent cut in tokens raising the bill by seven percent, because
+        cache traffic is most of the spend and compression breaks the cache. Without this ledger a cost claim
+        is not checkable, including ours.</p>
+    </div>
+  </section>
+
+  <section id="deliver">
+    <p class="eyebrow">Shape</p>
+    <h2>Where the code lives.</h2>
+    <pre class="code"><span class="s">spinabot/brigade</span>            <span class="c">public, MIT — unchanged except the assembler</span>
+  src/agents/memory/*      <span class="c">the open memory core keeps working</span>
+  src/agents/extensions/   <span class="c">the memory slot v2 plugs into</span>
+
+<span class="s">@spinabot/tideline</span>         <span class="c">private — the protocol and the models</span>
+  spec/SPEC.md             <span class="c">the formal model, phase 1</span>
+  model/                   <span class="c">reference implementation, the oracle</span>
+  conformance/             <span class="c">the eight rules as property tests</span>
+  src/label.ts             <span class="c">lattice, group resolution</span>
+  src/propagate.ts         <span class="c">cascade on supersession</span>
+  src/belief.ts            <span class="c">four-valued cells</span>
+  src/trust.ts             <span class="c">source reliability</span>
+  src/doors.ts             <span class="c">declassification, receipts</span>
+  src/budget.ts            <span class="c">injection under a bound</span>
+  eval/                    <span class="c">harness adapters, billing ledger</span>
+
+<span class="s">brigade-enterprise</span>         <span class="c">private — upstream + one overlay directory</span>
+  enterprise/              <span class="c">pins tideline into the memory slot</span>
+                           <span class="c">rebased on upstream nightly</span></pre>
+    <p class="fine">Plumbing the cost layer needs — the assembler's block ordering, an actor on memory events —
+      goes upstream into public Brigade, because keeping it in a fork guarantees the fork drifts. The protocol,
+      the propagation and the models stay private. Interfaces public, implementations private.</p>
+  </section>
+
+  <p class="foot">The <a href="protocol.html">design page</a> says what the rules are and why; this page says
+    what gets written. The <a href="benchmarks.html">exams page</a> says how each phase is checked.</p>
+
+</div>
+</body>
+</html>

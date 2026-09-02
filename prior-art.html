@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="color-scheme" content="light" />
+<title>Tideline — Prior art</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;450;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/brief.css">
+<style>
+  .hero { padding: 64px 0 40px; }
+  .hero h1 { max-width: 18ch; }
+  .verdict { font-family: var(--font-mono); font-size: .68rem; text-transform: uppercase;
+    letter-spacing: .08em; padding: 2px 7px; border-radius: 4px; white-space: nowrap; }
+  .v-taken { color: #9a3412; background: #fff7ed; border: 1px solid #fed7aa; }
+  .v-cite  { color: var(--ink-mute); background: var(--band); border: 1px solid var(--line); }
+  .v-open  { color: var(--kelp-dk); background: var(--kelp-bg); border: 1px solid #cdd6b8; }
+  table.pa td:first-child { width: 30%; }
+  table.pa td:last-child { width: 130px; }
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 34px; }
+  @media (max-width: 860px) { .split { grid-template-columns: 1fr; gap: 22px; } }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-in">
+    <span class="mark"><a href="index.html">Tideline <span class="dot">/</span> Research brief</a></span>
+    <nav>
+      <a href="index.html">Brief</a>
+      <a href="protocol.html">Design</a>
+      <a href="build.html">The build</a>
+      <a href="benchmarks.html">Exams</a>
+      <a href="landscape.html">Field</a>
+      <a href="prior-art.html" aria-current="page">Prior art</a>
+      <a href="evidence.html">Evidence</a>
+    </nav>
+    <span class="spacer"></span>
+    <span class="stamp">checked 2 Sep 2026</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="hero" style="border-bottom:0">
+    <p class="eyebrow">Prior art</p>
+    <h1>What already exists, and the little that does not.</h1>
+    <p class="lede">Before writing a line of the design we searched for every piece of it — in the peer-reviewed
+      literature and in this year's preprints. Most of it exists. Three ideas we had were published while we
+      were working, and one was published in July. This page is the honest accounting, because a claim of
+      novelty that a reviewer can break in an afternoon costs more than making no claim at all.</p>
+  </section>
+
+  <section id="killed">
+    <p class="eyebrow">Killed on inspection</p>
+    <h2>Four things we nearly claimed.</h2>
+    <table class="data" style="margin-top:22px">
+      <tr><th>What we thought was ours</th><th>Where it already was</th></tr>
+      <tr><td>Ordering prompt blocks by how often they change, to protect the cache</td><td>Written up publicly this year, twice, including a full evaluation of caching strategies for long agent sessions</td></tr>
+      <tr><td>Putting the volatile memory block after the conversation so the prefix stays stable</td><td>Zep published it with measurements — 1.9× cheaper at fifty-four turns</td></tr>
+      <tr><td>Splitting the cache by compartment so private context cannot be probed</td><td>A vLLM proposal from April 2025, with a hierarchical variant that shares an org-wide prefix and isolates per-tenant suffixes</td></tr>
+      <tr><td>An information-theoretic floor on how small a memory can be for a task</td><td>Published in July 2026: a layer-agnostic lower bound spanning KV cache, prompts and agent memory</td></tr>
+    </table>
+    <p class="fine" style="margin-top:16px">All four are cited in the design rather than claimed. The cache work
+      still matters to us — it is prior art one layer down, in the inference server, where the salt is an API
+      parameter. Nobody has done it above a black-box provider, driven by the labels on the memory itself.</p>
+  </section>
+
+  <section id="core">
+    <p class="eyebrow">The core mechanism</p>
+    <h2>Cascading repair was published three times this year.</h2>
+    <div class="split">
+      <div>
+        <p>In May, a paper named the problem — <em>the cascade update problem</em> — and formalised repair as a
+          minimum-cut over the graph of derived artifacts, reporting that with complete provenance it drives
+          invalidated-memory exposure from between seventy and ninety-four percent down to zero, and that one
+          percent of missing edges leaves seventeen percent still reachable.</p>
+        <p>In July, another built a transactional commit protocol for agent memory where each record carries
+          evidence, permissions, provenance and validity; retraction triggers typed cascading repair; and the
+          protocol was machine-checked over five and a half million states. It blocks, at commit time, exactly
+          the move we call laundering: republishing a private parent into a wider scope.</p>
+        <p>In August, an open-source Datalog memory shipped with bi-temporal validity, provenance and
+          recomputation of transitive dependents on retraction.</p>
+        <p>Behind all three: truth maintenance from 1979, assumption-based truth maintenance from 1986, and
+          incremental view maintenance from 1993. The idea that a store should repair what depended on a
+          retracted fact is older than most of the people building these products.</p>
+      </div>
+      <div>
+        <div class="card">
+          <h3>So what is left?</h3>
+          <p class="fine" style="margin-bottom:10px">Three things, all of them empirical rather than
+            theoretical:</p>
+          <ul class="tight fine">
+            <li><strong>The operating point.</strong> Keep the rule in the words it was written in, apply it with
+              one narrow call rather than a rewrite of the store, and report what that costs. The only
+              configuration that passes the public exam today does it with a frontier model rewriting the whole
+              memory file, at roughly seventy times the baseline.</li>
+            <li><strong>A number on the public exam.</strong> None of the three papers ran it. The vendor that
+              publishes scores ran it on itself and says so.</li>
+            <li><strong>The composition.</strong> Labels, time, dependencies, provenance and cost in one schema,
+              with a conformance suite that holds all of it at once — the transactional paper has no cost column,
+              the repair paper has no permissions, the open-source one has no evaluation.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="ledger">
+    <p class="eyebrow">The ledger</p>
+    <h2>Every mechanism, and whether it is ours.</h2>
+    <table class="data pa" style="margin-top:22px">
+      <tr><th>Mechanism</th><th>Where it comes from</th><th>Status</th></tr>
+      <tr><td>A lattice of reader sets; derived data takes the intersection</td><td>Denning, 1976. Decentralized label model, 2000. Microsoft's agent work states it for model outputs.</td><td><span class="verdict v-cite">cite</span></td></tr>
+      <tr><td>Filter before ranking, never after</td><td>Established in the retrieval-permissions literature; measured at 86% leakage when done the other way</td><td><span class="verdict v-cite">cite</span></td></tr>
+      <tr><td>Withheld is indistinguishable from absent</td><td>Inference control, and the authorization vendors' own guidance for list endpoints</td><td><span class="verdict v-cite">cite</span></td></tr>
+      <tr><td>…including result count and response time, on a memory store, with a test</td><td>—</td><td><span class="verdict v-open">ours</span></td></tr>
+      <tr><td>Cache isolation by compartment</td><td>vLLM proposal, 2025, at the inference server</td><td><span class="verdict v-taken">taken</span></td></tr>
+      <tr><td>…derived from memory labels, above a black-box provider, proved end to end</td><td>—</td><td><span class="verdict v-open">ours</span></td></tr>
+      <tr><td>Cascading repair of derived records</td><td>1979, 1986, 1993; three papers in 2026</td><td><span class="verdict v-cite">cite</span></td></tr>
+      <tr><td>…at commodity cost, with the rule kept verbatim, measured</td><td>—</td><td><span class="verdict v-open">ours</span></td></tr>
+      <tr><td>Blocking a private parent from being republished wider</td><td>The transactional protocol, July 2026</td><td><span class="verdict v-cite">cite</span></td></tr>
+      <tr><td>…requiring every contributor's authority, not just the last editor's</td><td>—</td><td><span class="verdict v-open">ours</span></td></tr>
+      <tr><td>Erasure with a verifiable receipt</td><td>Provenance work from 2001; several 2026 implementations</td><td><span class="verdict v-cite">cite</span></td></tr>
+      <tr><td>Authorization time as a third clock on a memory fact</td><td>Bi-temporal databases; temporal role-based access control</td><td><span class="verdict v-open">ours</span></td></tr>
+      <tr><td>Four-valued belief with a knowledge-order merge</td><td>Belnap 1977; Ginsberg 1988; an LLM application this year found 92 contradictions in a medical knowledge base</td><td><span class="verdict v-open">ours</span></td></tr>
+      <tr><td>Joint estimate of source reliability and claim truth</td><td>Truth discovery, 2008; knowledge fusion at web scale, 2014; applied to multi-source retrieval in 2024</td><td><span class="verdict v-open">ours</span></td></tr>
+      <tr><td>Retrieval under a risk guarantee</td><td>Conformal risk control and four RAG applications</td><td><span class="verdict v-open">ours</span></td></tr>
+      <tr><td>A lower bound on memory size for a task</td><td>Published July 2026</td><td><span class="verdict v-taken">taken</span></td></tr>
+    </table>
+    <p class="fine" style="margin-top:18px">Where a row says <em>ours</em>, it means the mechanism has not been
+      applied to a labelled, time-aware, dependency-carrying memory store and measured. It does not mean the
+      underlying idea is new, and the paper will say so in those words.</p>
+  </section>
+
+  <section id="stance">
+    <p class="eyebrow">The stance</p>
+    <h2>A protocol, not an algorithm.</h2>
+    <div class="split">
+      <div>
+        <p>Nothing above supports a claim to have invented something. What it supports is a different and more
+          durable claim: that these pieces have never been put in one schema, held together by invariants that
+          execute, and measured on public exams with a cost column.</p>
+        <p>That is the shape of the strongest paper in this space — a protocol with machine-checked properties —
+          and it is the shape an enterprise buyer can actually evaluate. "We invented a new algorithm" invites a
+          reviewer to go looking. "Here are eight properties, here is the suite that proves them, here are the
+          numbers on the public tests" does not.</p>
+      </div>
+      <div>
+        <div class="callout">
+          <p>The bibliography behind this page runs to sixty-five peer-reviewed entries, sixty of them with a
+          resolved DOI, grouped by which property they support. Worth noting for calibration: no peer-reviewed
+          survey of agent-memory <em>security</em> exists, and no peer-reviewed deterministic-cascade agent-memory
+          paper exists. Several of the systems we cite as closest prior art are preprints only.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <p class="foot">Citations and links are on the <a href="evidence.html">evidence page</a>. Where a paper is a
+    preprint rather than peer-reviewed, it is labelled there.</p>
+
+</div>
+</body>
+</html>

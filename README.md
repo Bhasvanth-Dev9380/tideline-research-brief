@@ -4,20 +4,25 @@
 
 Companion to the [Brigade strategy brief](https://github.com/Bhasvanth-Dev9380/brigade-strategy-brief), same rules, same design system.
 
-A two-page brief on the 25 days (2–27 September 2026) that build Tideline v2's foundation — the mathematical models and the protocol, each measured on a public harness with a cost column — before any product work.
+Tideline v2 is a memory layer for AI agents where personal, team and company memory are one store distinguished by a label, facts stay correct when the world changes, and what the model derives inherits the permissions of what it was derived from. This is the plan for the twenty-five days (2–27 September 2026) that build its foundation, and the research the plan rests on.
 
-| Page | What it is |
+| Page | What it answers |
 |---|---|
-| [`index.html`](index.html) | The brief. The moment, the thesis (a protocol and three models, not an algorithm), what is already verified, the six phases with the artifact each ends in, what will and will not be claimed, risks as an opponent would argue them, budget. |
-| [`protocol.html`](protocol.html) | What we build. The design Tideline v2 is built to: one store with labels instead of separate personal and company memories, the eight rules as property tests, the five doors into company memory, the three models, and how Tideline / Grokbot / living pages fit together. |
-| [`evidence.html`](evidence.html) | Every figure on the brief with its source: benchmarks, market and competitor claims (labelled vendor-reported), prior art cited instead of claimed, and the Tideline internals referenced. |
+| [`index.html`](index.html) | **The brief.** Why now, the thesis, what is already verified, the six phases and what each produces, what will and will not be claimed, risks, budget. |
+| [`protocol.html`](protocol.html) | **Design.** What the thing is: one store with labels instead of separate personal and company memories, the eight rules with what each is for and where it came from, the five doors into company memory, the three models, and how Tideline / Grokbot / living pages fit. |
+| [`build.html`](build.html) | **The build.** Every file that changes and what goes in it — the record, the label lattice, propagation on supersession, four-valued belief, source reliability, label-ordered assembly, the billing ledger, and where the private package lives. |
+| [`benchmarks.html`](benchmarks.html) | **Exams.** Why running a public benchmark is not testing a competitor, what MEME asks with a worked episode, and what each of the other harnesses is for. |
+| [`landscape.html`](landscape.html) | **Field.** Ninety-one products surveyed, the four claims they share, what the enterprise incumbents actually enforce, and the three pieces of uncontested ground. |
+| [`prior-art.html`](prior-art.html) | **Prior art.** What already exists, the four ideas we killed on inspection, and a ledger marking every mechanism cite / taken / ours. |
+| [`evidence.html`](evidence.html) | **Evidence.** Every figure with its source. |
 
 ## Rules this brief follows
 
 1. **A number appears only if it is on the evidence page.** Competitor figures are quoted from the vendor's own page and labelled as such; independent numbers link to the paper or harness.
-2. **Nothing is claimed as new that has an ancestor.** The prior-art table on the evidence page lists what is cited instead — MemoRepair, MemTX, Fides, vLLM RFC #16016, PromptPeek, Colaco & Lahjouji, RA-RAG, and the rest.
-3. **Every phase ends in a measurement, not a feature.** If a phase's number comes out badly, the brief reports it that way; a low edge-recall number is a bounded result, not a failure to mention.
-4. **Our own future numbers get the same label we give Sentra's**: vendor-reported until someone else runs the harness.
+2. **Nothing is claimed as new that has an ancestor.** The prior-art ledger marks each mechanism `cite`, `taken` or `ours`, and four ideas we had were killed after finding them published.
+3. **Every phase builds something, and the number at the end is the receipt that it works** — not a separate activity, and never a test of somebody else's product.
+4. **If a measurement comes out badly it is published anyway**, stated as the bound it establishes.
+5. **Our own numbers carry the same label we give everyone else's** until an independent party re-runs them: vendor-reported.
 
 Competitor, benchmark and vendor-documentation figures were retrieved **2 September 2026** and are not refreshed automatically. Tideline internals were read at `spinabot/brigade` `main` on the same date.
 

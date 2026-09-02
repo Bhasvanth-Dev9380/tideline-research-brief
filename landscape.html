@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="color-scheme" content="light" />
+<title>Tideline — The field</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;450;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/brief.css">
+<style>
+  .hero { padding: 64px 0 40px; }
+  .hero h1 { max-width: 19ch; }
+  table.data td:nth-child(2) { color: var(--ink-mute); }
+  table.data.claims td:nth-child(3) { font-family: var(--font-mono); font-size: .78rem; }
+  .q { border-left: 2px solid var(--kelp); padding: 2px 0 2px 16px; margin: 0 0 18px; }
+  .q p { margin: 0 0 4px; color: var(--ink); }
+  .q cite { font-style: normal; font-size: .78rem; color: var(--ink-mute); font-family: var(--font-mono); }
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 34px; }
+  @media (max-width: 860px) { .split { grid-template-columns: 1fr; gap: 22px; } }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-in">
+    <span class="mark"><a href="index.html">Tideline <span class="dot">/</span> Research brief</a></span>
+    <nav>
+      <a href="index.html">Brief</a>
+      <a href="protocol.html">Design</a>
+      <a href="build.html">The build</a>
+      <a href="benchmarks.html">Exams</a>
+      <a href="landscape.html" aria-current="page">Field</a>
+      <a href="prior-art.html">Prior art</a>
+      <a href="evidence.html">Evidence</a>
+    </nav>
+    <span class="spacer"></span>
+    <span class="stamp">surveyed 2 Sep 2026</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="hero" style="border-bottom:0">
+    <p class="eyebrow">The field</p>
+    <h1>Ninety-one products. Four claims. Almost no evidence.</h1>
+    <p class="lede">We read all four Y Combinator 2026 batches — six hundred and sixty companies — then swept
+      Product Hunt, Show HN, funding announcements, investor portfolios and GitHub, and finally read the primary
+      documentation of every enterprise incumbent. Everything below is quoted from a vendor's own page or a
+      published paper. Where a vendor does not document something, it says so rather than counting against them.</p>
+  </section>
+
+  <section id="who">
+    <p class="eyebrow">Who is selling this</p>
+    <h2>The category formed in nine months.</h2>
+    <div class="split">
+      <div>
+        <h3 style="margin-bottom:12px">Y Combinator 2026 · "company brain"</h3>
+        <table class="data">
+          <tr><th>Company</th><th>Batch</th><th>Positioning</th></tr>
+          <tr><td>Hyper</td><td>Spring</td><td>"The self-driving company brain"</td></tr>
+          <tr><td>Memory Store</td><td>Spring</td><td>"Company Brain."</td></tr>
+          <tr><td>Savant</td><td>Spring</td><td>"The operational memory layer"</td></tr>
+          <tr><td>Alloovium</td><td>Summer</td><td>Company brain for construction</td></tr>
+          <tr><td>Glen</td><td>Summer</td><td>Institutional learning layer</td></tr>
+        </table>
+        <p class="fine" style="margin-top:12px">Plus seven selling nothing but token reduction — Quotient,
+          ReasonBlocks, Codag, Compresr, The Token Company, Mentlio, Conifer — and a long tail of adjacent
+          context and workspace tools.</p>
+      </div>
+      <div>
+        <h3 style="margin-bottom:12px">Where the money went</h3>
+        <table class="data">
+          <tr><th>Company</th><th>Raised</th><th>Approach</th></tr>
+          <tr><td>Engram</td><td>$98M</td><td>Parametric — memory trained into weights</td></tr>
+          <tr><td>Highlight AI</td><td>$40M</td><td>Capture layer above the tools</td></tr>
+          <tr><td>Jedify</td><td>$24M</td><td>Context graph over warehouses</td></tr>
+          <tr><td>Twin1</td><td>$20M</td><td>A digital twin per person</td></tr>
+          <tr><td>Blockbrain</td><td>€17.5M</td><td>Knowledge twins from expert input</td></tr>
+          <tr><td>Interloom</td><td>$16.5M</td><td>Episodic graph of resolved cases</td></tr>
+          <tr><td>Coworker</td><td>$13M</td><td>Organizational memory, enterprise only</td></tr>
+          <tr><td>Modus</td><td>$10M</td><td>"Context warehouse"</td></tr>
+          <tr><td>Cognee</td><td>$7.5M</td><td>Open source, graph + vector</td></tr>
+          <tr><td>Sentra</td><td>$5M</td><td>Bi-temporal graph</td></tr>
+        </table>
+      </div>
+    </div>
+    <p class="fine" style="margin-top:20px">Open source has the gravity: one session-capture tool sits above
+      ninety thousand stars, and the largest memory framework above sixty thousand. Neither has any of the
+      properties an enterprise buyer asks about.</p>
+  </section>
+
+  <section id="claims">
+    <p class="eyebrow">What they claim</p>
+    <h2>The same four sentences, in ninety-one voices.</h2>
+    <table class="data claims" style="margin-top:22px">
+      <tr><th>Claim</th><th>Who</th><th>Evidence behind it</th></tr>
+      <tr>
+        <td>Shared memory for people and agents</td>
+        <td>Everyone</td>
+        <td>table stakes</td>
+      </tr>
+      <tr>
+        <td>Permission-aware</td>
+        <td>Nearly everyone</td>
+        <td>one published model in the field</td>
+      </tr>
+      <tr>
+        <td>Correct as facts change</td>
+        <td>One company</td>
+        <td>self-reported, self-run</td>
+      </tr>
+      <tr>
+        <td>Cheaper</td>
+        <td>Fifteen or so</td>
+        <td>tokens, not dollars</td>
+      </tr>
+    </table>
+
+    <div style="margin-top:34px" class="split">
+      <div>
+        <h3>On permissions</h3>
+        <div class="q">
+          <p>"Mem0 doesn't have that model, and honestly, most memory layers don't yet… If you genuinely need
+            role-based permissions, that logic has to live in your own application layer."</p>
+          <cite>mem0.ai — published 2 September 2026</cite>
+        </div>
+        <p class="fine">That is the largest open-source memory layer in the category describing the state of the
+          art, on the day we surveyed it. The one substantive counter-example is Zep's enterprise tier, which
+          tags attributes at ingest, projects them onto derived nodes with intersection semantics, defaults to
+          deny, and offers a report-only mode to test a policy before enforcing it. It is read-time and it is
+          the strongest competitor design we found.</p>
+        <p class="fine">Everyone else offers scoping primitives — a container tag, a user id, a dataset, a bank —
+          and leaves the policy to the customer. Two vendors document the failure themselves: one warns that its
+          default tag-matching mode returns untagged memories to everyone, and another's own cookbook shows a
+          query returning another agent's private preferences.</p>
+      </div>
+      <div>
+        <h3>On cost</h3>
+        <div class="q">
+          <p>"So far, internal evals show about a 29% reduction in token spend and 21% reduction in task
+            completion time."</p>
+          <cite>Glen — YC launch, August 2026</cite>
+        </div>
+        <p class="fine">We read the command-line tool this claim describes. The only public source for the
+          number is a single blog post: a hundred pull requests replayed on one unnamed repository, five runs per
+          arm, means reported, no raw data, no token-class definition, no variance, no independent replication.</p>
+        <p class="fine">More interesting is the mechanism. Since the release that shipped on the same day as the
+          benchmark post, the tool injects no memory per prompt at all — it places a block at session start whose
+          request carries no task context, and otherwise the agent has to call a search command itself. So the
+          saving is not compression; it is the agent exploring less. Their own source comments record that the
+          time saving inverted by twenty percent when they changed the wording of a single cautionary sentence
+          appended to search results.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="enterprise">
+    <p class="eyebrow">The incumbents</p>
+    <h2>Everyone enforces on documents. Nobody labels what the AI makes.</h2>
+    <p class="lede">We read the primary documentation for Glean, Microsoft 365 Copilot, Google Gemini Enterprise,
+      Amazon Q Business, Notion, Atlassian Rovo, Slack, Salesforce Agentforce, Dust and Claude for Teams. The
+      pattern is identical and so is the hole.</p>
+
+    <table class="data" style="margin-top:24px">
+      <tr><th>System</th><th>Where it enforces</th><th>The gap</th></tr>
+      <tr><td>Glean</td><td>Mirrors source ACLs at crawl, checks at query. The only vendor claiming per-sentence granularity.</td><td>Artifacts created inside a project take the <em>project's</em> permissions, not the source document's. Citations can persist in history after access is revoked.</td></tr>
+      <tr><td>Microsoft 365 Copilot</td><td>Graph permissions at query time; sensitivity labels inherit into generated Word and PowerPoint files.</td><td>Copilot's own memory is exempt from retention policy, cannot be restricted by an administrator, and — in Microsoft's words — generates no audit entries at all.</td></tr>
+      <tr><td>Google Gemini Enterprise</td><td>ACLs ingested per document, identity sync from thirty minutes.</td><td>No labels on generated answers. Its agent memory uses a separate scope dictionary with no link to document permissions; the docs warn about memory poisoning.</td></tr>
+      <tr><td>Amazon Q Business</td><td>ACL crawling, permissions re-checked at chat time.</td><td>Closed to new customers as of July 2026.</td></tr>
+      <tr><td>Notion</td><td>Explicitly "checked at query time, not just during indexing", with published propagation times.</td><td>Custom agents "operate with their own independent permissions" — the agent becomes a principal, which is the pattern that leaks.</td></tr>
+      <tr><td>Salesforce Agentforce</td><td>Live platform enforcement on the acting user's permissions.</td><td>Audit trails and session traces land in objects that do not inherit sharing — the leak is in the audit log itself.</td></tr>
+      <tr><td>Claude for Teams</td><td>Memory strictly per person, per project; owners cannot read it; turning it off deletes it.</td><td>The cleanest personal-compartment semantics we found. No company-memory layer to leak into.</td></tr>
+    </table>
+
+    <p class="fine" style="margin-top:22px">Two structural findings. First, <strong>propagation is rebuild-bound
+      everywhere</strong>: identity syncs from thirty minutes, content syncs from three hours, and Microsoft
+      documents that a visibility change on a large site "could take more than a week" to reflect in search and
+      Copilot. Second, <strong>no vendor documents the existence question</strong> — whether a user can infer
+      that a document they cannot read exists, from a result count, a ranking gap or a response time. It appears
+      in none of the documentation we read.</p>
+  </section>
+
+  <section id="conclusion">
+    <p class="eyebrow">What it adds up to</p>
+    <h2>The uncontested ground.</h2>
+    <div class="grid g3" style="margin-top:24px">
+      <div class="card">
+        <h3>Correctness under change</h3>
+        <p class="fine">Measured at three and one percent across the field. One vendor claims forty, on its own
+          site, from its own run. This is open ground with a public exam sitting on it.</p>
+      </div>
+      <div class="card">
+        <h3>Derived artifacts</h3>
+        <p class="fine">Every incumbent enforces on documents and none labels what the model produces from them.
+          Summaries, pages, memories and audit traces are where the leaks are, and it is a design gap rather
+          than a bug queue.</p>
+      </div>
+      <div class="card">
+        <h3>Cost that is actually billed</h3>
+        <p class="fine">Fifteen vendors claim token reductions. The public session-cost protocol found the most
+          popular of them making sessions more expensive. Nobody reports dollars per solved task.</p>
+      </div>
+    </div>
+    <p class="fine" style="margin-top:24px">None of these is a marketing gap. Each is a mechanism that has to be
+      built and then measured, which is what the <a href="build.html">twenty-five days</a> are for.</p>
+  </section>
+
+  <p class="foot">Sources for every figure and quotation on this page are on the
+    <a href="evidence.html">evidence page</a>. Surveyed 2 September 2026; not refreshed automatically.</p>
+
+</div>
+</body>
+</html>
