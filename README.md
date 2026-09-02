@@ -4,11 +4,14 @@
 
 Companion to the [Brigade strategy brief](https://github.com/Bhasvanth-Dev9380/brigade-strategy-brief), same rules, same design system.
 
-Tideline v2 is a memory layer for AI agents where personal, team and company memory are one store distinguished by a label, facts stay correct when the world changes, and what the model derives inherits the permissions of what it was derived from. This is the plan for the twenty-five days (2–27 September 2026) that build its foundation, and the research the plan rests on.
+Tideline v2 is the memory an enterprise can actually deploy: one store where every fact knows who may read it, stays correct when the company changes, can be erased with proof, and is assembled so the shared part is paid for once. **[What we are building and what we are aiming at →](product.html)**
+
+This repository is the plan for the twenty-five days (2–27 September 2026) that build its foundation, and the research that plan rests on.
 
 | Page | What it answers |
 |---|---|
 | [`index.html`](index.html) | **The brief.** Why now, the thesis, what is already verified, the six phases and what each produces, what will and will not be claimed, risks, budget. |
+| [`product.html`](product.html) | **The product.** What we are building and what we are aiming at: five moments in a real company where every existing product breaks and what Tideline does instead, the three surfaces (the agent, living pages, the console), and the twelve-month arc this month is the first row of. |
 | [`protocol.html`](protocol.html) | **Design.** What the thing is: one store with labels instead of separate personal and company memories, the eight rules with what each is for and where it came from, the five doors into company memory, the three models, and how Tideline / Grokbot / living pages fit. |
 | [`build.html`](build.html) | **The build.** Every file that changes and what goes in it — the record, the label lattice, propagation on supersession, four-valued belief, source reliability, label-ordered assembly, the billing ledger, and where the private package lives. |
 | [`benchmarks.html`](benchmarks.html) | **Exams.** Why running a public benchmark is not testing a competitor, what MEME asks with a worked episode, and what each of the other harnesses is for. |

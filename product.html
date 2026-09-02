@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="color-scheme" content="light" />
+<title>Tideline — What we are building</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;450;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/brief.css">
+<style>
+  .hero { padding: 64px 0 44px; }
+  .hero h1 { max-width: 16ch; }
+  .scene { border-top: 1px solid var(--ink); padding: 22px 0 8px; margin-top: 30px; }
+  .scene:first-of-type { margin-top: 0; }
+  .scene .who { font-family: var(--font-mono); font-size: .7rem; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--kelp-dk); margin-bottom: 6px; }
+  .scene h3 { margin-bottom: 10px; font-size: 1.15rem; }
+  .scene .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start; }
+  @media (max-width: 860px) { .scene .grid2 { grid-template-columns: 1fr; gap: 16px; } }
+  .today { border-left: 2px solid #e7c9b8; padding-left: 15px; }
+  .today .lbl, .withit .lbl { font-family: var(--font-mono); font-size: .68rem; letter-spacing: .1em;
+    text-transform: uppercase; display: block; margin-bottom: 5px; }
+  .today .lbl { color: #9a3412; }
+  .withit { border-left: 2px solid var(--kelp); padding-left: 15px; }
+  .withit .lbl { color: var(--kelp-dk); }
+  .today p, .withit p { margin-bottom: 0; font-size: .9rem; }
+  .horizon { border-top: 1px solid var(--line); padding: 16px 0 8px; display: grid;
+    grid-template-columns: 130px 1fr; gap: 22px; }
+  .horizon:first-of-type { border-top: 1px solid var(--ink); }
+  @media (max-width: 700px) { .horizon { grid-template-columns: 1fr; gap: 6px; } }
+  .horizon .when { font-family: var(--font-mono); font-size: .75rem; color: var(--ink-mute); }
+  .horizon .when b { display: block; color: var(--ink); font-family: var(--font-display);
+    font-size: 1.05rem; font-weight: 600; letter-spacing: -.01em; }
+  .horizon h3 { margin-bottom: 5px; }
+  .horizon p { margin-bottom: 0; font-size: .89rem; }
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  @media (max-width: 860px) { .split { grid-template-columns: 1fr; gap: 24px; } }
+  .console { font-family: var(--font-mono); font-size: .76rem; line-height: 1.85; color: var(--ink-soft);
+    background: var(--sunk); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 20px 22px; overflow-x: auto; }
+  .console b { color: var(--ink); font-weight: 500; }
+  .console .m { color: var(--kelp-dk); }
+  .console .d { color: var(--ink-faint); }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-in">
+    <span class="mark"><a href="index.html">Tideline <span class="dot">/</span> Research brief</a></span>
+    <nav>
+      <a href="index.html">Brief</a>
+      <a href="product.html" aria-current="page">The product</a>
+      <a href="protocol.html">Design</a>
+      <a href="build.html">The build</a>
+      <a href="benchmarks.html">Exams</a>
+      <a href="landscape.html">Field</a>
+      <a href="prior-art.html">Prior art</a>
+      <a href="evidence.html">Evidence</a>
+    </nav>
+    <span class="spacer"></span>
+    <span class="stamp">draft 0.1 · 3 Sep 2026</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="hero" style="border-bottom:0">
+    <p class="eyebrow">The product</p>
+    <h1>The memory an enterprise can actually deploy.</h1>
+    <p class="lede">Every company that has tried to give its AI access to what it knows has hit the same wall.
+      Not "can the model find the document" — that was solved. The wall is that the moment the memory is shared,
+      it becomes a liability: it leaks between people, it goes stale and nobody can tell, nothing can be properly
+      deleted, and it makes the bill go up.<br><br>
+      <strong>Tideline is the layer that removes that wall.</strong> One store where every fact knows who may
+      read it, stays correct when the company changes, can be erased with proof, and is assembled so the shared
+      part is paid for once. It is what Spinabot sells; Grokbot is the workspace people see on top of it.</p>
+    <div class="readings" style="margin-top:44px">
+      <div class="reading"><span class="n">one store</span><span class="l">personal, team and company memory are one mechanism with different labels</span></div>
+      <div class="reading"><span class="n">stays true</span><span class="l">a fact changing updates or flags everything built on it</span></div>
+      <div class="reading"><span class="n">provable</span><span class="l">who knew what when, and erasure with a receipt</span></div>
+      <div class="reading"><span class="n">cheaper</span><span class="l">the company block is cached once for the whole organization</span></div>
+    </div>
+  </section>
+
+  <section id="scenes">
+    <p class="eyebrow">What it does</p>
+    <h2>Five things that happen in a real company.</h2>
+    <p class="lede">Not features. The moments where every existing product breaks, and what Tideline does
+      instead.</p>
+
+    <div class="scene">
+      <p class="who">A new engineer, first week</p>
+      <h3>Their agent knows the company. It does not know everything.</h3>
+      <div class="grid2">
+        <div class="today"><span class="lbl">Today</span>
+          <p>Either the assistant is wired to a shared index and can surface a compensation thread someone
+            forgot to lock, or it is wired to nothing and the engineer re-explains the architecture from
+            scratch every session. Most companies pick the second and call it security.</p></div>
+        <div class="withit"><span class="lbl">With Tideline</span>
+          <p>Their agent reads what they may read — the engineering decisions, the incident history, the naming
+            conventions — because the filter runs before the search, not after it. Nothing they cannot see ever
+            enters the candidate set, so nothing can slip out through a summary, a count, or a suspiciously
+            fast answer.</p></div>
+      </div>
+    </div>
+
+    <div class="scene">
+      <p class="who">Pricing changes on a Tuesday</p>
+      <h3>Everything built on it updates, or admits it no longer knows.</h3>
+      <div class="grid2">
+        <div class="today"><span class="lbl">Today</span>
+          <p>The new price is added. The old one is still in the store, in three summaries, in the onboarding
+            page and in the sales agent's context. It keeps being quoted for weeks. This is the failure every
+            memory system in the field shares, measured at three percent on the public test.</p></div>
+        <div class="withit"><span class="lbl">With Tideline</span>
+          <p>Facts that depended on the price recompute where a rule was stated, and where none was, they close
+            and mark themselves as needing confirmation rather than answering from a stale value. The onboarding
+            page rebuilds itself. The sales agent says it is not current instead of quoting last quarter.</p></div>
+      </div>
+    </div>
+
+    <div class="scene">
+      <p class="who">Someone leaves</p>
+      <h3>One action, and the receipt to prove it.</h3>
+      <div class="grid2">
+        <div class="today"><span class="lbl">Today</span>
+          <p>Their account is disabled and their memory sits wherever it landed. In one major product it moves
+            to an inactive mailbox and stays discoverable; in another the docs say memory is exempt from the
+            retention policy entirely. Facts <em>about</em> the person are nobody's feature.</p></div>
+        <div class="withit"><span class="lbl">With Tideline</span>
+          <p>Their private compartment exports to them or is destroyed with its key. Their contributions to team
+            and company memory stay, because those went through a door and were attributed at the time. Facts
+            about them purge along provenance, and the whole thing produces a receipt an auditor can verify
+            without being shown any content.</p></div>
+      </div>
+    </div>
+
+    <div class="scene">
+      <p class="who">Something goes wrong</p>
+      <h3>"Why did the agent tell the customer that, on the third?"</h3>
+      <div class="grid2">
+        <div class="today"><span class="lbl">Today</span>
+          <p>Unanswerable. The leading enterprise assistant's own documentation states that memory actions
+            generate no audit entries. You can see that the agent replied; you cannot see what it believed or
+            why it was allowed to believe it.</p></div>
+        <div class="withit"><span class="lbl">With Tideline</span>
+          <p>Three clocks on every fact — when it was true, when the store learned it, when that person became
+            entitled to see it — and an append-only log of the reads. The answer is exact: this fact, from this
+            source, believed since then, readable by them because of this membership, which changed on that
+            date.</p></div>
+      </div>
+    </div>
+
+    <div class="scene">
+      <p class="who">The AI bill arrives</p>
+      <h3>The shared context is paid for once, not once per employee.</h3>
+      <div class="grid2">
+        <div class="today"><span class="lbl">Today</span>
+          <p>Every session re-sends the company context and pays full price for it, or a compression tool
+            rewrites the conversation each turn and destroys the provider's cache — which is how the most
+            popular tool in that category was measured making sessions fifty-three percent
+            <em>more</em> expensive.</p></div>
+        <div class="withit"><span class="lbl">With Tideline</span>
+          <p>Blocks are ordered from public to private, so the company-wide block is byte-identical for everyone
+            and the provider caches it once for the organization. Private compartments sit behind a boundary
+            nobody outside them can construct — so the cheap path and the safe path are the same path, and we
+            report the four token classes that are actually billed.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="surfaces">
+    <p class="eyebrow">What people touch</p>
+    <h2>Three surfaces.</h2>
+    <div class="split">
+      <div>
+        <h3>The agent</h3>
+        <p>Nothing to learn. An agent in Grokbot, Claude Code, Cursor or a customer's own stack recalls and
+          writes through Tideline, carrying the identity of the person who invoked it — never its own. A
+          sub-agent inherits the caller's reach rather than the owner's, which is the single change that closes
+          the leak channel the published study found carries nearly half of all agent leakage.</p>
+
+        <h3 style="margin-top:26px">Living pages</h3>
+        <p>The visible payoff, and the reason the whole propagation mechanism exists. A page is built from
+          facts, so it carries the intersection of their labels — you only see pages assembled from things you
+          may read — and it maintains itself: when a fact underneath moves, the page updates or marks the
+          affected part unconfirmed. A company wiki that is accurate on a Tuesday afternoon without anyone
+          having edited it.</p>
+      </div>
+      <div>
+        <h3>The console</h3>
+        <p>For whoever is accountable. Not dashboards — answers to the questions that get asked in a review.</p>
+        <div class="console" style="margin-top:14px">
+<b>compartments</b>          <span class="d">members · facts · last write</span>
+  company               <span class="d">412 people · 8,904</span>
+  team:payments         <span class="d">11 · 2,110</span>
+  project:apollo        <span class="d">6 · 431</span>
+  <span class="m">personal</span>              <span class="d">412 · not readable here</span>
+
+<b>how things became company knowledge</b>
+  <span class="m">14:22</span> dilip published 3 facts   <span class="d">receipt f3a9…</span>
+  <span class="m">09:05</span> admin promoted 1 fact    <span class="d">override, owner told</span>
+  <span class="m">08:41</span> derived from public ×26  <span class="d">automatic</span>
+
+<b>would this be exposed?</b>
+  person + fact  →  <span class="m">visible · why</span>
+  canary per compartment  →  <span class="m">all quiet</span>
+
+<b>cache posture</b>
+  org block shared        <span class="m">cached once · 94% reads</span>
+  private behind boundary <span class="m">yes</span></div>
+        <p class="fine" style="margin-top:14px">Every row is backed by a rule the store enforces, so it is an
+          exact answer rather than an estimate. Nothing widens without appearing in the middle panel, which
+          makes that list the complete history of how the company came to know anything.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="aim">
+    <p class="eyebrow">What we are aiming at</p>
+    <h2>Twelve months, not twenty-five days.</h2>
+    <p class="lede">The month in the <a href="index.html">brief</a> builds the foundation and the proof. It is the
+      first row of this table, and the only one whose numbers we will have soon. The rest is the direction, and
+      it is written as intent rather than as a promise.</p>
+
+    <div style="margin-top:30px">
+      <div class="horizon">
+        <div class="when"><b>Sept</b>25 days</div>
+        <div>
+          <h3>The foundation, and the receipts.</h3>
+          <p>Labels, propagation, four-valued belief, trust from agreement, the cache-aware assembler, the
+            conformance suite. Measured on the public exams with a cost column. At the end of it we can say
+            what Tideline does and prove it — which nobody in the category currently can.</p>
+        </div>
+      </div>
+      <div class="horizon">
+        <div class="when"><b>Oct–Nov</b>months 2–3</div>
+        <div>
+          <h3>The surfaces people actually use.</h3>
+          <p>The memory server and the editor hooks, so an enterprise gets this inside the agents they already
+            run. Living pages. The console. Grokbot wired as a client that holds no memory of its own. The first
+            design partner running it on their own company, which is where the ten questions we have not thought
+            of come from.</p>
+        </div>
+      </div>
+      <div class="horizon">
+        <div class="when"><b>Dec–Feb</b>months 4–6</div>
+        <div>
+          <h3>The things a security review asks for.</h3>
+          <p>Directory integration so labels resolve against the customer's own groups. Per-tenant keys and
+            regional hosting. The departure workflow as a supported operation. The audit export a regulator
+            accepts. Independent replication of the September numbers, which is worth more than any of our own
+            runs.</p>
+        </div>
+      </div>
+      <div class="horizon">
+        <div class="when"><b>Mar–Aug</b>months 7–12</div>
+        <div>
+          <h3>From a layer to the place the knowledge lives.</h3>
+          <p>Ingest that keeps up with a whole company. Living pages as the primary way people read what the
+            company knows. Cost reporting an office of finance will accept. And the paper, submitted where a
+            security result belongs, because an enterprise buying memory should be able to read the proof rather
+            than the brochure.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="stake">
+    <p class="eyebrow">The claim</p>
+    <h2>What we will be able to say, and what nobody else can.</h2>
+    <div class="split">
+      <div>
+        <p>Every company in this category says the same four sentences: shared memory, permission-aware, correct
+          over time, cheaper. The first is table stakes. For the other three, the field has a self-reported
+          table, a documented admission that role permissions live in the customer's own code, and a set of
+          token claims that a public cost protocol has already contradicted.</p>
+        <p>The thing worth building is not a better sentence. It is the same three claims with a number behind
+          each one that somebody else can reproduce:</p>
+        <ul class="tight">
+          <li><strong>Correct as facts change</strong> — a score on the public exam at ordinary cost, where the
+            field sits at three percent and one.</li>
+          <li><strong>Enforced, not asserted</strong> — a leak rate per channel on the published harness, and a
+            conformance suite anyone can run.</li>
+          <li><strong>Cheaper in dollars</strong> — billed cost per solved task under the public protocol, with
+            the four token classes reported.</li>
+        </ul>
+      </div>
+      <div>
+        <div class="callout">
+          <p><strong>The aim, in one sentence.</strong> That an enterprise can say <em>"our AI knows how this
+          company works"</em> and have every part of that be true — knows what is current rather than what was
+          said once, knows it only for the people entitled to it, can prove both, and costs less than not having
+          it.</p>
+        </div>
+        <p class="fine" style="margin-top:22px">Brigade stays public and MIT, and the memory core it ships with
+          keeps working. Tideline v2 is the private package that plugs into the slot Brigade already exposes.
+          Plumbing goes upstream where everyone benefits; the protocol and the models are the company's.</p>
+      </div>
+    </div>
+  </section>
+
+  <p class="foot">The <a href="protocol.html">design</a> says how these guarantees are constructed, the
+    <a href="build.html">build</a> says what gets written, and the <a href="evidence.html">evidence page</a>
+    sources every number quoted here.</p>
+
+</div>
+</body>
+</html>
