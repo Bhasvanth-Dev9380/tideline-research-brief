@@ -1,0 +1,199 @@
+/* Tideline — research brief.
+ *
+ * Drawn from the subject: a tideline is the mark high water leaves on the shore,
+ * a record of what was true and when. The instruments of that record are the
+ * marigram (a stylus line on a drum) and the tide table (columns of times and
+ * heights). So: paper white, slate ink, one accent — kelp, the dark olive of the
+ * wrack line — used only as a mark. Numbers are set in Plex Mono, tide-table style.
+ * Light in every environment; there are no dark tokens.
+ *
+ * Reference numbers: body 15.5/1.6, hairline #d9dedf, section rhythm 64px,
+ * card padding 20px, table row 11px, radius 6px, headline tracking -0.02em.
+ */
+
+:root {
+  color-scheme: light;
+
+  --paper:     #ffffff;
+  --sunk:      #f5f6f5;
+  --band:      #eceeec;
+  --ink:       #171a1c;
+  --ink-soft:  #3d4347;
+  --ink-mute:  #6b7378;
+  --ink-faint: #9aa2a7;
+  --line:      #d9dedf;
+  --line-soft: #eceff0;
+
+  --kelp:      #566331;   /* the mark: phase rules, high-water ticks, one word */
+  --kelp-dk:   #414b25;
+  --kelp-bg:   #f1f3ea;
+  --yes:       #2f6b3a;
+  --no:        #9aa2a7;
+
+  --font-display: 'IBM Plex Sans Condensed', 'IBM Plex Sans', -apple-system, 'Segoe UI', sans-serif;
+  --font-text:    'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono:    'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --measure: 68ch;
+  --pad: clamp(20px, 5vw, 48px);
+  --radius: 6px;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: 72px; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink-soft);
+  font-family: var(--font-text);
+  font-size: 15.5px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  font-variant-numeric: tabular-nums;
+  overflow-x: hidden;
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* ---------- masthead ---------- */
+.masthead {
+  position: sticky; top: 0; z-index: 40;
+  background: rgba(255,255,255,.9);
+  backdrop-filter: saturate(160%) blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.masthead-in {
+  max-width: 1240px; margin: 0 auto; padding: 0 var(--pad);
+  height: 52px; display: flex; align-items: center; gap: 22px;
+}
+.mark { font-family: var(--font-display); font-size: 1rem; font-weight: 600; letter-spacing: -.005em;
+  white-space: nowrap; color: var(--ink); text-transform: uppercase; }
+.mark a { color: var(--ink); text-decoration: none; }
+.mark .dot { color: var(--ink-faint); font-weight: 400; padding: 0 2px; }
+.masthead nav { display: flex; gap: 16px; overflow-x: auto; scrollbar-width: none; min-width: 0; }
+.masthead nav::-webkit-scrollbar { display: none; }
+.masthead nav a {
+  color: var(--ink-mute); text-decoration: none; font-size: .8125rem; font-weight: 450;
+  white-space: nowrap; padding: 2px 0; border-bottom: 1.5px solid transparent;
+}
+.masthead nav a:hover, .masthead nav a:focus-visible { color: var(--ink); outline: none; border-bottom-color: var(--kelp); }
+.masthead nav a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--ink); }
+.masthead .spacer { flex: 1; }
+.stamp { font-family: var(--font-mono); font-size: .6875rem; color: var(--ink-faint); white-space: nowrap; }
+@media (max-width: 860px) { .stamp { display: none; } .masthead-in { gap: 14px; } }
+
+/* ---------- layout ---------- */
+.wrap { max-width: 1240px; margin: 0 auto; padding: 0 var(--pad); }
+.col  { max-width: var(--measure); }
+section { padding: 64px 0; border-bottom: 1px solid var(--line); }
+section:last-of-type { border-bottom: 0; }
+
+h1, h2, h3 { color: var(--ink); margin: 0 0 .5em; }
+h1 { font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 3.9rem); font-weight: 600;
+  letter-spacing: -.02em; line-height: .98; }
+h2 { font-family: var(--font-display); font-size: clamp(1.6rem, 2.8vw, 2.15rem); font-weight: 600;
+  letter-spacing: -.015em; line-height: 1.1; }
+h3 { font-family: var(--font-text); font-size: 1.0625rem; letter-spacing: -.01em; line-height: 1.3; font-weight: 600; }
+p { margin: 0 0 1em; }
+a { color: var(--ink); text-decoration: underline; text-decoration-color: #b9c0c3;
+  text-decoration-thickness: 1px; text-underline-offset: 2.5px; }
+a:hover { text-decoration-color: var(--kelp); }
+a:focus-visible { outline: 2px solid var(--kelp); outline-offset: 2px; }
+strong { color: var(--ink); font-weight: 600; }
+em { font-style: italic; }
+code { font-family: var(--font-mono); font-size: .855em; background: var(--band);
+  padding: 1.5px 5px; border-radius: 4px; color: var(--ink); }
+
+.eyebrow {
+  font-family: var(--font-mono); font-size: .6875rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink-faint); margin: 0 0 16px; font-weight: 500;
+}
+.eyebrow b { color: var(--kelp-dk); font-weight: 500; }
+.lede { font-size: 1.0625rem; line-height: 1.62; color: var(--ink-soft); max-width: 64ch; }
+.lede strong { color: var(--ink); }
+.fine { font-size: .8125rem; color: var(--ink-mute); line-height: 1.52; }
+
+/* ---------- primitives ---------- */
+.grid { display: grid; gap: 16px; }
+.g2 { grid-template-columns: repeat(2, 1fr); }
+.g3 { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 900px) { .g3 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 620px) { .g2, .g3 { grid-template-columns: 1fr; } }
+
+.card {
+  background: var(--paper); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 19px 20px;
+}
+.card h3 { margin-bottom: 6px; }
+.card p:last-child, .card .fine:last-child, .card ul:last-child, .card table:last-child { margin-bottom: 0; }
+
+/* the reading, tide-table style: a mono number with a small label under it */
+.reading { border-top: 1px solid var(--ink); padding: 10px 0 0; }
+.reading .n { font-family: var(--font-mono); font-size: 1.55rem; font-weight: 500; line-height: 1.1;
+  letter-spacing: -.02em; display: block; color: var(--ink); }
+.reading .l { font-size: .75rem; color: var(--ink-mute); line-height: 1.38; display: block; margin-top: 6px; }
+
+table.data { width: 100%; border-collapse: collapse; font-size: .875rem; }
+table.data th {
+  text-align: left; font-family: var(--font-mono); font-weight: 500; font-size: .6875rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-faint); padding: 0 14px 8px 0;
+  border-bottom: 1px solid var(--ink);
+}
+table.data td { padding: 11px 14px 11px 0; border-bottom: 1px solid var(--line-soft);
+  color: var(--ink-soft); vertical-align: top; }
+table.data td:first-child { color: var(--ink); font-weight: 550; }
+table.data tr:last-child td { border-bottom: 0; }
+table.data td.num { font-family: var(--font-mono); font-size: .8rem; white-space: nowrap; color: var(--ink); }
+
+ul.tight { margin: 0 0 1em; padding-left: 1.1em; }
+ul.tight li { margin-bottom: .35em; }
+ul.tight li::marker { color: var(--ink-faint); }
+
+/* Weight from a rule and the type, never from a fill. */
+.callout { border-left: 2px solid var(--kelp); padding: 2px 0 2px 18px; }
+.callout p:last-child { margin-bottom: 0; }
+
+.panel { background: var(--sunk); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: clamp(22px, 3.6vw, 36px); }
+
+.two { display: grid; grid-template-columns: 1.15fr 1fr; gap: 46px; align-items: start; }
+@media (max-width: 900px) { .two { grid-template-columns: 1fr; gap: 30px; } }
+
+/* ---------- the marigram (signature) ---------- */
+.marigram { margin: 44px 0 0; }
+.marigram svg { width: 100%; height: auto; display: block; }
+.marigram .axis { stroke: var(--line); stroke-width: 1; }
+.marigram .grid { stroke: var(--line-soft); stroke-width: 1; }
+.marigram .trace { fill: none; stroke: var(--ink); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.marigram .hw { stroke: var(--kelp); stroke-width: 1.5; }
+.marigram .hw-dot { fill: var(--kelp); }
+.marigram text { font-family: var(--font-mono); font-size: 10.5px; fill: var(--ink-mute); }
+.marigram text.day { fill: var(--ink-faint); }
+.marigram text.read { fill: var(--ink); font-weight: 500; }
+.marigram text.ph { fill: var(--ink-soft); font-family: var(--font-text); font-size: 11px; }
+@media (prefers-reduced-motion: no-preference) {
+  .marigram .trace { stroke-dasharray: 2400; stroke-dashoffset: 2400; animation: draw 2.6s cubic-bezier(.4,0,.2,1) .25s forwards; }
+  .marigram .hw, .marigram .hw-dot, .marigram text.read { opacity: 0; animation: appear .5s ease forwards; }
+  .marigram .p1 { animation-delay: .75s; } .marigram .p2 { animation-delay: 1.15s; } .marigram .p3 { animation-delay: 1.6s; }
+  .marigram .p4 { animation-delay: 2.05s; } .marigram .p5 { animation-delay: 2.5s; } .marigram .p6 { animation-delay: 2.85s; }
+}
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes appear { to { opacity: 1; } }
+
+/* ---------- phases: the tide table ---------- */
+.phase { border-top: 1px solid var(--kelp); padding: 18px 0 10px; display: grid;
+  grid-template-columns: 168px 1fr; gap: 24px; }
+.phase:last-of-type { border-bottom: 1px solid var(--line); }
+@media (max-width: 720px) { .phase { grid-template-columns: 1fr; gap: 8px; } }
+.phase .d { font-family: var(--font-mono); font-size: .75rem; color: var(--ink-mute); line-height: 1.55; }
+.phase .d b { display: block; color: var(--ink); font-family: var(--font-display); font-size: 1.15rem;
+  font-weight: 600; letter-spacing: -.01em; margin-bottom: 2px; }
+.phase h3 { margin-bottom: 8px; }
+.phase .out { margin-top: 10px; font-size: .86rem; color: var(--ink-soft); border-left: 2px solid var(--kelp); padding-left: 12px; }
+.phase .out b { color: var(--ink); font-weight: 600; }
+
+.risk { border-top: 1px solid var(--ink); padding-top: 14px; }
+.risk h3 { margin-bottom: 4px; }
+.risk .a { font-size: .86rem; color: var(--ink-soft); }
+.risk .a b { color: var(--ink); font-weight: 600; }
+
+.foot { padding: 28px 0 40px; font-size: .8125rem; color: var(--ink-mute); border-top: 1px solid var(--line); }

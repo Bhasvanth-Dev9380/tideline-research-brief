@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="color-scheme" content="light" />
+<title>Tideline — 25-day research brief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;450;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/brief.css">
+<style>
+  .hero { padding: 64px 0 48px; }
+  .hero h1 { max-width: 20ch; }
+  .readings { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 22px 26px; margin-top: 40px; }
+  .inv td:nth-child(2) { font-family: var(--font-mono); font-size: .8rem; }
+  .ledger td:first-child { white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-in">
+    <span class="mark"><a href="index.html">Tideline <span class="dot">/</span> Research brief</a></span>
+    <nav>
+      <a href="#moment">Moment</a>
+      <a href="#thesis">Thesis</a>
+      <a href="#verified">Verified</a>
+      <a href="#phases">The 25 days</a>
+      <a href="#claims">Claims</a>
+      <a href="#risks">Risks</a>
+      <a href="#budget">Budget</a>
+      <a href="evidence.html">Evidence</a>
+    </nav>
+    <span class="spacer"></span>
+    <span class="stamp">draft 0.1 · 2 Sep 2026 · light only</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- ─────────────────────────── HERO ─────────────────────────── -->
+  <section class="hero" style="border-bottom: 0;">
+    <p class="eyebrow">Research brief · September 2026 · private</p>
+    <h1>Everyone sells a company brain. Nobody has measured one.</h1>
+    <p class="lede">
+      Sixty-plus companies now market shared memory for AI agents. On the one public benchmark that tests
+      whether a memory stays correct when facts change, every practical-cost system scores
+      <strong>3% and 1%</strong>. On the one public benchmark that measures what a session actually costs,
+      the most-starred token optimizer makes sessions <strong>53% more expensive</strong>. The leading
+      open-source memory layer wrote this week that role-based permissions are something
+      <em>"most memory layers don't [have] yet."</em><br><br>
+      <strong>This brief is the 25-day plan to change that.</strong> Not a product sprint: the mathematical
+      models and the protocol first, each one measured on a public harness with a cost column, before a
+      single feature is built on top. What comes out is Tideline v2's foundation and the only set of
+      reproducible numbers in the category.
+    </p>
+
+    <div class="marigram">
+<svg viewBox="0 0 1000 300" role="img" aria-label="Marigram: the 25 days drawn as a rising tide; each phase ends at a high-water mark labelled with the number it must produce">
+<title>The 25 days as a tide record</title>
+<line class="grid" x1="48.0" y1="40" x2="48.0" y2="236"/>
+<text class="day" x="48.0" y="252" text-anchor="middle">1</text>
+<line class="grid" x1="86.7" y1="40" x2="86.7" y2="236"/>
+<line class="grid" x1="125.3" y1="40" x2="125.3" y2="236"/>
+<line class="grid" x1="164.0" y1="40" x2="164.0" y2="236"/>
+<line class="grid" x1="202.7" y1="40" x2="202.7" y2="236"/>
+<text class="day" x="202.7" y="252" text-anchor="middle">5</text>
+<line class="grid" x1="241.3" y1="40" x2="241.3" y2="236"/>
+<line class="grid" x1="280.0" y1="40" x2="280.0" y2="236"/>
+<line class="grid" x1="318.7" y1="40" x2="318.7" y2="236"/>
+<line class="grid" x1="357.3" y1="40" x2="357.3" y2="236"/>
+<line class="grid" x1="396.0" y1="40" x2="396.0" y2="236"/>
+<text class="day" x="396.0" y="252" text-anchor="middle">10</text>
+<line class="grid" x1="434.7" y1="40" x2="434.7" y2="236"/>
+<line class="grid" x1="473.3" y1="40" x2="473.3" y2="236"/>
+<line class="grid" x1="512.0" y1="40" x2="512.0" y2="236"/>
+<line class="grid" x1="550.7" y1="40" x2="550.7" y2="236"/>
+<line class="grid" x1="589.3" y1="40" x2="589.3" y2="236"/>
+<text class="day" x="589.3" y="252" text-anchor="middle">15</text>
+<line class="grid" x1="628.0" y1="40" x2="628.0" y2="236"/>
+<line class="grid" x1="666.7" y1="40" x2="666.7" y2="236"/>
+<line class="grid" x1="705.3" y1="40" x2="705.3" y2="236"/>
+<line class="grid" x1="744.0" y1="40" x2="744.0" y2="236"/>
+<line class="grid" x1="782.7" y1="40" x2="782.7" y2="236"/>
+<text class="day" x="782.7" y="252" text-anchor="middle">20</text>
+<line class="grid" x1="821.3" y1="40" x2="821.3" y2="236"/>
+<line class="grid" x1="860.0" y1="40" x2="860.0" y2="236"/>
+<line class="grid" x1="898.7" y1="40" x2="898.7" y2="236"/>
+<line class="grid" x1="937.3" y1="40" x2="937.3" y2="236"/>
+<line class="grid" x1="976.0" y1="40" x2="976.0" y2="236"/>
+<text class="day" x="976.0" y="252" text-anchor="middle">25</text>
+<line class="axis" x1="48" y1="236" x2="976" y2="236"/>
+<text class="day" x="48" y="270">day · 2 Sep</text><text class="day" x="976" y="270" text-anchor="end">27 Sep</text>
+<path class="trace" d="M48.0,220.3 C54.4,217.5 73.8,210.8 86.7,203.7 C99.6,196.5 115.7,177.9 125.3,177.2 C135.0,176.5 125.3,197.8 144.7,199.5 C164.0,201.3 212.3,196.1 241.3,187.5 C270.3,178.9 302.6,148.8 318.7,147.8 C334.8,146.8 315.4,179.6 338.0,181.3 C360.6,183.1 418.6,172.8 454.0,158.4 C489.4,144.0 531.3,96.5 550.7,94.9 C570.0,93.2 553.9,136.1 570.0,148.5 C586.1,160.9 624.8,174.8 647.3,169.2 C669.9,163.5 692.4,115.9 705.3,114.5 C718.2,113.1 705.3,156.2 724.7,160.7 C744.0,165.1 792.3,157.3 821.3,141.1 C850.3,124.9 882.6,65.5 898.7,63.5 C914.8,61.5 908.3,117.6 918.0,129.1 C927.7,140.6 947.0,146.0 956.7,132.5 C966.3,119.0 972.8,62.0 976.0,47.8"/>
+<line class="hw p1" x1="125.3" y1="177.2" x2="125.3" y2="236"/>
+<circle class="hw-dot p1" cx="125.3" cy="177.2" r="3"/>
+<text class="read p1" x="133.3" y="163.2" text-anchor="start">3 numbers</text>
+<text class="ph" x="48.0" y="26">Baseline</text>
+<line class="hw p2" x1="318.7" y1="147.8" x2="318.7" y2="236"/>
+<circle class="hw-dot p2" cx="318.7" cy="147.8" r="3"/>
+<text class="read p2" x="326.7" y="133.8" text-anchor="start">suite green</text>
+<text class="ph" x="164.0" y="26">Protocol</text>
+<line class="hw p3" x1="550.7" y1="94.9" x2="550.7" y2="236"/>
+<circle class="hw-dot p3" cx="550.7" cy="94.9" r="3"/>
+<text class="read p3" x="558.7" y="80.9" text-anchor="start">MEME ≥ 0.40</text>
+<text class="ph" x="357.3" y="26">Change & absence</text>
+<line class="hw p4" x1="705.3" y1="114.5" x2="705.3" y2="236"/>
+<circle class="hw-dot p4" cx="705.3" cy="114.5" r="3"/>
+<text class="read p4" x="713.3" y="100.5" text-anchor="start">conflict slice</text>
+<text class="ph" x="589.3" y="26">Trust</text>
+<line class="hw p5" x1="898.7" y1="63.5" x2="898.7" y2="236"/>
+<circle class="hw-dot p5" cx="898.7" cy="63.5" r="3"/>
+<text class="read p5" x="906.7" y="49.5" text-anchor="start">$ / solved task</text>
+<text class="ph" x="744.0" y="26">Cost</text>
+<line class="hw p6" x1="976.0" y1="47.8" x2="976.0" y2="236"/>
+<circle class="hw-dot p6" cx="976.0" cy="47.8" r="3"/>
+<text class="read p6" x="968.0" y="33.8" text-anchor="end">draft</text>
+<text class="ph" x="937.3" y="26">Write-up</text>
+</svg>
+    </div>
+
+    <div class="readings">
+      <div class="reading"><span class="n">25</span><span class="l">days · 2 Sep → 27 Sep 2026</span></div>
+      <div class="reading"><span class="n">3% · 1%</span><span class="l">field average on MEME Cascade · Absence</span></div>
+      <div class="reading"><span class="n">−52.8%</span><span class="l">Headroom on THOL: sessions cost more, not less</span></div>
+      <div class="reading"><span class="n">8</span><span class="l">protocol invariants, each an executable test</span></div>
+      <div class="reading"><span class="n">3</span><span class="l">mathematical models with open operating points</span></div>
+      <div class="reading"><span class="n">$0.75–3.5k</span><span class="l">API budget for the full publication set</span></div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────── THE MOMENT ─────────────────────────── -->
+  <section id="moment">
+    <p class="eyebrow">The moment</p>
+    <h2>The claims are loud. The measurements are missing.</h2>
+
+    <div class="two">
+      <div>
+        <p>
+          The phrase "company brain" hardened into a category in 2026. We scanned all four Y Combinator 2026
+          batches — <strong>660 companies</strong> — and found five selling exactly that (Hyper, Memory Store,
+          Savant, Alloovium, Glen) and seven selling only token reduction. Outside YC the money is larger:
+          Engram raised <strong>$98M</strong> for a parametric memory layer, Highlight <strong>$40M</strong>,
+          Jedify <strong>$24M</strong>, Twin1 <strong>$20M</strong>. Ninety-one products in total, from
+          primary sources.
+        </p>
+        <p>
+          Every one of them makes the same four claims: shared memory across people and agents,
+          permission-aware, correct over time, cheaper. Only the first is table stakes. The other three have
+          almost no public evidence behind them. Glen's "29% fewer tokens" is one vendor-run replay on one
+          repository, no data published; its shipped CLI injects no memory per prompt — the agent has to call
+          a search tool. Sentra's benchmark scores appear only on Sentra's own site, which itself says to
+          treat them as "vendor-reported until independent replication."
+        </p>
+        <p>
+          Meanwhile the independent numbers point the other way. A 2,908-run study found that cutting tool
+          tokens by <strong>38.4% raised the bill by 6.8%</strong>, because cache traffic is most of the
+          spend. Enterprise vendors enforce permissions at read time on documents and
+          <strong>none of them labels derived artifacts</strong> — the summaries, pages and audit traces
+          where the leaks actually happen.
+        </p>
+      </div>
+      <div>
+        <div class="card">
+          <p class="kicker">Four claims, one field</p>
+          <table class="data">
+            <tr><th>Claim</th><th>Public evidence</th></tr>
+            <tr><td>Shared memory</td><td>Everyone. Table stakes.</td></tr>
+            <tr><td>Permission-aware</td><td>Mem0, 2 Sep 2026: "most memory layers don't yet." Zep Enterprise ABAC is the only published model; read-time.</td></tr>
+            <tr><td>Correct over time</td><td>Sentra only, self-reported. Field: Cascade 3%, Absence 1%.</td></tr>
+            <tr><td>Cheaper</td><td>Tokens vs. full context. Billed cost: −38% tokens → +6.8% bill.</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────── THESIS ─────────────────────────── -->
+  <section id="thesis">
+    <p class="eyebrow">Thesis</p>
+    <h2>Not a new algorithm. A protocol, three models, and numbers nobody has.</h2>
+
+    <div class="two">
+      <div>
+        <p>
+          We checked. The core mechanism a company brain needs — propagate a change through every fact that
+          depends on it — was published three times this year: MemoRepair named "the cascade update problem"
+          in May, MemTX built transactional belief commit with cascading repair in July, and Lemmalog shipped
+          a bi-temporal Datalog memory in August. The label lattice for who-may-read-what is Denning 1976 and
+          Microsoft's Fides. The salted cache prefix is a vLLM RFC. Anyone claiming to have invented these is
+          wrong, and reviewers know it.
+        </p>
+        <p>
+          What does not exist is the <strong>composition</strong>, stated as invariants and tested, and the
+          <strong>measurements</strong>. So the foundation we build in 25 days is:
+        </p>
+        <ul class="tight">
+          <li><strong>A protocol</strong> — eight invariants over one fact schema, each a property-based test any
+            implementation must pass. The headline theorem is noninterference <em>through the prompt cache</em>:
+            a person outside a compartment cannot learn its contents even by timing the provider's cache.</li>
+          <li><strong>Three mathematical models</strong>, each replacing a heuristic that has already failed a
+            measurement: four-valued beliefs for "I don't know any more" (MEME Absence); a source-reliability
+            fixed point replacing "confirmed because it was read three times"; conformal injection with a
+            billed-token budget replacing "inject the top five."</li>
+          <li><strong>Public numbers with a cost column</strong> — MEME, the THOL session-cost protocol, and a
+            leak suite — the first reproducible set in the category.</li>
+        </ul>
+      </div>
+      <div>
+        <div class="callout">
+          <p><strong>Why math first, features later.</strong> Every later line of code is checked against the
+          conformance suite. A store that passes it cannot launder a private fact into company memory, cannot
+          report a stale dependent as current, and cannot leak through the cache — whatever the UI does on top.
+          Get that right and the workspace, the living pages and the admin console are plumbing.</p>
+        </div>
+        <br>
+        <div class="card">
+          <p class="kicker">The eight invariants</p>
+          <table class="data inv">
+            <tr><td>I1</td><td>admission</td><td>untrusted sources can't author or supersede protected facts</td></tr>
+            <tr><td>I2</td><td>join</td><td>a derived fact is as restricted as its most restricted source</td></tr>
+            <tr><td>I3</td><td>pre-filter</td><td>recall is computed only over what the reader may see — count and timing included</td></tr>
+            <tr><td>I4</td><td>cache</td><td>blocks ordered by label, nonces at boundaries; org memory cached once for everyone</td></tr>
+            <tr><td>I5</td><td>closure</td><td>a superseded fact recomputes or flags every dependent, without an LLM pass over the store</td></tr>
+            <tr><td>I6</td><td>erasure</td><td>purge removes the provenance closure and emits a receipt</td></tr>
+            <tr><td>I7</td><td>audit</td><td>"could this person have known this at that time" is decidable from the log</td></tr>
+            <tr><td>I8</td><td>doors</td><td>readers of a fact grow only through an audited door, signed by every contributor</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────── VERIFIED ─────────────────────────── -->
+  <section id="verified">
+    <p class="eyebrow">What is already verified</p>
+    <h2>The starting position, checked at function level.</h2>
+
+    <div class="grid g3">
+      <div class="card">
+        <h3>Already in Tideline</h3>
+        <ul class="tight fine">
+          <li>Pre-filter by origin before ranking (records.ts)</li>
+          <li>Deterministic subject-key supersession with bi-temporal close (<code>invalidate()</code>)</li>
+          <li>Write-gate on source type; protected segments</li>
+          <li>Typed link graph, event log, crypto-shred</li>
+          <li>Eval harness with bootstrap CIs</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Verified gaps</h3>
+        <ul class="tight fine">
+          <li>No <code>depends_on</code> edge; no propagation on invalidate</li>
+          <li>Provenance pointers have zero producers — purge cascade is inert</li>
+          <li>No principal identity on facts; events carry no actor</li>
+          <li>Subagents run with full owner scope; tool results unwrapped</li>
+          <li>Dream confirms a fact after three reads — exposure validates truth</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Harnesses ready to run</h3>
+        <ul class="tight fine">
+          <li><strong>MEME</strong> — public code, 4-method adapter, cost tracker built in, $25–60 per run</li>
+          <li><strong>THOL</strong> — billed cost per solved task, isolated headless Claude Code, raw data published</li>
+          <li><strong>AgentLeak · ForgetEval · LongMemEval-M</strong> — leak channels, erasure, unsaturated recall</li>
+          <li>Agent Memory Leaderboard cycle 2 opens <strong>20 Sep</strong>, inside the window</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────── PHASES ─────────────────────────── -->
+  <section id="phases">
+    <p class="eyebrow"><b>Tide table</b> · the 25 days</p>
+    <h2>Six phases. Each ends with a number, not a feature.</h2>
+    <p class="lede">Ordered by dependency. Nothing in a later phase can be measured until the earlier one produced
+      its artifact. Days are calendar days from 2 September.</p>
+
+    <div class="phase">
+      <div class="d"><b>Phase 0</b>Days 1–3<br>Baseline</div>
+      <div>
+        <h3>Measure the store we have before touching it.</h3>
+        <p>Write the MEME adapter (four methods over the Tideline API) and run one seed on current Tideline
+          with the cost tracker on. Run one THOL-protocol session pair on a Brigade task with the four billed
+          token classes logged. Measure dependency-edge extraction recall on MEME episodes — MemoRepair shows
+          1% missing edges leaks 17.7%, so this number governs everything after it.</p>
+        <p class="out"><b>Artifact:</b> three baseline numbers — MEME (Cas/Abs/Del + $/episode), billed $ per
+          solved task, edge recall. Nobody in the category has published any of the three.</p>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="d"><b>Phase 1</b>Days 4–8<br>Protocol</div>
+      <div>
+        <h3>Write the protocol as something that runs.</h3>
+        <p><code>SPEC.md</code>: the fact schema, the label lattice with join = intersection of readers, the eight
+          operations as pre/post-conditions, I1–I8 as statements, four theorems with proof sketches.
+          A <strong>reference model</strong> in a few hundred lines of pure TypeScript — naive, obviously correct,
+          the oracle. A <strong>conformance suite</strong> in property-based tests over random lattices, fact DAGs and
+          membership churn: recall never differs on facts the reader can't see; no derivation lowers a label;
+          purge leaves no provenance survivor; audit replay agrees with ground truth; no prefix is shared past a
+          label boundary.</p>
+        <p class="out"><b>Artifact:</b> the protocol, executable. Runs green on the reference model; runs red on
+          current Tideline at the exact invariants the gap list predicts.</p>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="d"><b>Phase 2</b>Days 9–14<br>Change &amp; absence</div>
+      <div>
+        <h3>Model 1: facts that change, and facts that stop being known.</h3>
+        <p>Add <code>depends_on</code> edges with the rule text stored verbatim (MEME shows extraction that
+          decomposes the rule is why Mem0 and Graphiti fail), and propagation inside <code>invalidate()</code>:
+          rule present → recompute the dependent; no rule → mark it unknown. Replace the status flag with
+          <strong>four-valued belief cells</strong> (true / false / contradicted / unknown-since) merged by the
+          knowledge-order join, so "I no longer know" is a value the store computes rather than a sentence the
+          prompt hopes for. Cost bound: O(reachable dependents), zero LLM passes over the store.</p>
+        <p class="out"><b>Artifact:</b> MEME ×3 seeds with the cost column. Target: Cascade and Absence ≥ 0.40 at
+          ≤ 2× the baseline's $0.056/episode. The paper's only known closure costs ~70×.</p>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="d"><b>Phase 3</b>Days 15–18<br>Trust</div>
+      <div>
+        <h3>Model 2: what is true is what independent sources agree on.</h3>
+        <p>Replace "confirmed after three reads" with a <strong>source-reliability fixed point</strong>
+          (TruthFinder / Knowledge Vault lineage): sources are principals, tools and channels; reliability and
+          fact truth are estimated jointly; convergence is provable. It composes with labels because sources
+          already carry them. RA-RAG did this for retrieval corpora; nobody has run the joint fixed point over a
+          persistent agent store.</p>
+        <p class="out"><b>Artifact:</b> conflict-slice numbers on ConflictBank (label-blind) and MMA-Bench, and the
+          exposure-validates-truth loop removed with a measured replacement.</p>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="d"><b>Phase 4</b>Days 19–23<br>Cost</div>
+      <div>
+        <h3>Model 3: inject with a guarantee, assemble for the cache, bill it honestly.</h3>
+        <p>Label-ordered prompt assembly in Brigade with secret nonces at label boundaries (I4): the company block
+          is byte-identical for every employee and cached once; private blocks sit behind a nonce nobody outside
+          the compartment holds. <strong>Conformal risk control on injection</strong> — the loss is retrieval
+          distortion, the constraint is a billed-token budget — replacing top-k. Then the honest measurement:
+          THOL protocol, ten runs per task, four billed classes, cost per <em>solved</em> task, plus AgentLeak
+          C2/C4/C5 and ForgetEval. Agent Memory Leaderboard cycle-2 submission on day 19.</p>
+        <p class="out"><b>Artifact:</b> billed $ per solved task with and without Tideline, the cache-read share,
+          a leak rate per channel, and an erasure receipt that verifies.</p>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="d"><b>Phase 5</b>Days 24–25<br>Write-up</div>
+      <div>
+        <h3>Say only what was measured.</h3>
+        <p>Whitepaper draft with the formal model, the four theorems, the conformance suite, and every number
+          from Phases 0–4 with its reproduction command. Send the MEME runner and results to the benchmark's
+          authors. Nothing on the site that is not on the evidence page.</p>
+        <p class="out"><b>Artifact:</b> a draft a hostile reviewer can check, and the foundation the product is
+          built on from day 26.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────── CLAIMS ─────────────────────────── -->
+  <section id="claims">
+    <p class="eyebrow">Claims</p>
+    <h2>What we will be allowed to say on day 25, and what we won't.</h2>
+
+    <div class="two">
+      <div>
+        <table class="data ledger">
+          <tr><th>Claim</th><th>Condition</th></tr>
+          <tr><td>Dependency updates at practical cost</td><td>MEME Cas/Abs ≥ 0.40, $/episode ≤ 2× baseline, 3 seeds, full run published</td></tr>
+          <tr><td>Removal actually removes</td><td>MEME Deletion ≥ 0.90 and a purge whose receipt verifies against the log</td></tr>
+          <tr><td>Enforced before retrieval, per person</td><td>0 leaks on AgentLeak C2/C4/C5; conformance suite green</td></tr>
+          <tr><td>Lower bill per completed task</td><td>THOL-protocol paired runs, billed classes, ten repetitions</td></tr>
+          <tr><td>No side channel through the cache</td><td>I4 enforced; no shared prefix past a label boundary under test</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="card">
+          <p class="kicker">Will not be claimed</p>
+          <ul class="tight fine">
+            <li>"X% fewer tokens" as a headline — tokens are not dollars</li>
+            <li>"SOTA on LoCoMo / LongMemEval" — saturated; LoCoMo has a 6.4% wrong answer key</li>
+            <li>"A new algorithm" — every primitive has an ancestor and is cited as such</li>
+            <li>"First information-theoretic bound on agent memory" — Colaco &amp; Lahjouji published it in July</li>
+            <li>Any number without a cost column next to it</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────── RISKS ─────────────────────────── -->
+  <section id="risks">
+    <p class="eyebrow">Risks</p>
+    <h2>Written the way an opponent would argue them.</h2>
+
+    <div class="grid g2">
+      <div class="risk">
+        <h3>"Your determinism starts after the edge exists."</h3>
+        <p class="a"><b>True.</b> Propagation is exact; extracting the dependency rule is not. MEME shows cheap
+          extractors strip the contingency wording. That is why edge recall is a Phase 0 number and stays in
+          every table — if it is low, the honest result is "closure is bounded by extraction," not a win.</p>
+      </div>
+      <div class="risk">
+        <h3>"MemTX already did permissions plus cascade."</h3>
+        <p class="a"><b>Partly.</b> MemTX has no cost column, no MEME run, no cache invariant, no authorization-time
+          audit. We cite it as the closest prior work and put a capability table next to it, the way it did to
+          its rivals.</p>
+      </div>
+      <div class="risk">
+        <h3>"Twenty-five days is not enough to matter."</h3>
+        <p class="a"><b>For a product, correct.</b> For the foundation it is: the numbers exist by day 14, the
+          cost result by day 23. What it does not produce is the workspace, the admin console or the Codex and
+          Cursor hooks. Those start on day 26 against a suite that is already green.</p>
+      </div>
+      <div class="risk">
+        <h3>"Nobody outside will verify it."</h3>
+        <p class="a"><b>The plan depends on that being false.</b> MEME's harness and data are public; the runner
+          goes to the authors; THOL publishes raw per-run data and accepts arms. If nobody replicates, the
+          brief says "vendor-reported" about our own numbers, the way we say it about Sentra's.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────── BUDGET ─────────────────────────── -->
+  <section id="budget">
+    <p class="eyebrow">Budget</p>
+    <h2>What it costs to know.</h2>
+    <div class="two">
+      <div>
+        <table class="data ledger">
+          <tr><th>Item</th><th>Estimate</th></tr>
+          <tr><td>MEME, one seed</td><td>$25–60 (≈4.3k API calls)</td></tr>
+          <tr><td>MEME, three seeds</td><td>$75–180</td></tr>
+          <tr><td>THOL-protocol paired coding runs (Sonnet class)</td><td>the bulk of the spend</td></tr>
+          <tr><td>ForgetEval · AgentLeak · conformance suite</td><td>$0 API</td></tr>
+          <tr><td>Full publication set</td><td><strong>$0.75–3.5k</strong>; 8–11 engineering days for adapters</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="callout">
+          <p>Two calendar constraints inside the window: <strong>20 September</strong>, Agent Memory Leaderboard
+          cycle 2 opens; NeurIPS 2026 workshop deadlines fall in September–October. Both are targets, neither is
+          the point. The point is that on 27 September there is a foundation that cannot be argued with, and
+          everything the customer sees is built on it.</p>
+        </div>
+      </div>
+    </div>
+    </section>
+  <p class="foot">Every figure on this page is listed with its source on the
+      <a href="evidence.html">evidence page</a>. Competitor and benchmark figures were retrieved 2 September 2026.</p>
+
+</div>
+</body>
+</html>

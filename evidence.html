@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="color-scheme" content="light" />
+<title>Tideline — Evidence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;450;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/brief.css">
+<style>
+  .hero { padding: 64px 0 40px; }
+  table.data td:nth-child(2) { font-family: var(--font-mono); font-size: .8rem; white-space: nowrap; }
+  table.data td:nth-child(4) a { word-break: break-all; }
+  .src { font-size: .8rem; }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-in">
+    <span class="mark"><a href="index.html">Tideline <span class="dot">/</span> Research brief</a></span>
+    <nav>
+      <a href="index.html">Brief</a>
+      <a href="evidence.html" aria-current="page">Evidence</a>
+    </nav>
+    <span class="spacer"></span>
+    <span class="stamp">retrieved 2 Sep 2026</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="hero" style="border-bottom:0">
+    <p class="eyebrow">Evidence</p>
+    <h1>Every figure, with its source.</h1>
+    <p class="lede">Nothing appears on the brief that is not in one of these tables. Vendor claims are quoted from the vendor's own page and labelled as such; independent numbers link to the paper or harness. Where a number was computed by us, the method is stated.</p>
+  </section>
+
+  <section id="benchmarks">
+    <p class="eyebrow">Benchmarks and independent measurements</p>
+    <table class="data">
+      <tr><th>Figure</th><th>Value</th><th>What it measures</th><th>Source</th></tr>
+      <tr><td>MEME field average</td><td>Cascade 0.03 · Absence 0.01</td><td>Six memory systems (BM25, dense, Mem0, Graphiti, Karpathy Wiki, MD-flat), 100 episodes, gpt-4.1-mini internal, trivial-pass filtered</td><td class="src">Jung, Rubinstein, Uselis, Yun, Oh — <a href="https://arxiv.org/abs/2605.12477">arXiv 2605.12477</a>, KAIST / Tübingen / NAVER, ICML 2026 SCALE workshop. Code: <a href="https://github.com/SeokwonJung-Jay/MEME-public">MEME-public</a>; data: <a href="https://huggingface.co/datasets/meme-benchmark/MEME">HF meme-benchmark/MEME</a></td></tr>
+      <tr><td>MEME only closure</td><td>Cas 0.32 · Abs 0.59 at ~70× cost</td><td>MD-flat with Claude Opus 4.7 as internal LLM, 20-episode subset; Exact Recall drops 0.95→0.60</td><td class="src">Same paper, Table 4, Table 6, App. K.2</td></tr>
+      <tr><td>MEME baseline cost</td><td>$0.056 / episode</td><td>MD-flat with gpt-4.1-mini, ingest + inference, Table 5</td><td class="src">Same paper, App. A</td></tr>
+      <tr><td>MEME run cost</td><td>$25–60 per seed, ≈4.3k API calls</td><td>Our estimate from the harness: ~2.1k ingest, 1,188 answer, 988 judge calls; <code>budget_tracker.py</code> logs cache-creation/read/input/output</td><td class="src">Computed from <a href="https://github.com/SeokwonJung-Jay/MEME-public">MEME-public</a> code and dataset counts (100 episodes, 2,143 sessions, 3.52M tokens, 494 before + 694 after questions)</td></tr>
+      <tr><td>THOL, Headroom</td><td>−52.8%</td><td>Session cost change vs vanilla Claude Code on long sessions (>200k tokens); negative = more expensive. Sonnet 4.6, CC 2.1.183, 10 runs/task</td><td class="src"><a href="https://pi-infected.github.io/token-harness-optimizer-leaderboard/">THOL leaderboard</a>; method in <a href="https://github.com/pi-infected/token-harness-optimizer-leaderboard">repo README</a>. Maintained by the author of one measured tool (tokenade); conflict disclosed and handled by construction</td></tr>
+      <tr><td>Tokens vs. cost</td><td>−38.4% tokens → +6.8% cost</td><td>2,908 billed runs; ≈80% of spend is cache traffic</td><td class="src"><a href="https://arxiv.org/abs/2607.12161">arXiv 2607.12161</a> (four-class billed ledger reconciled to the bill)</td></tr>
+      <tr><td>Provenance edge recall</td><td>1% missing edges → 17.7% leak</td><td>Invalidated-memory exposure when influence provenance is incomplete</td><td class="src">MemoRepair — <a href="https://arxiv.org/abs/2605.07242">arXiv 2605.07242</a></td></tr>
+      <tr><td>Retrieve-then-filter leakage</td><td>86.1%</td><td>371/431 structural leaks under post-filtering; static metadata tags reopen 9.7% after one policy update</td><td class="src">AFR — Namboothiri, TrustNLP 2026 (see bibliography in research notes)</td></tr>
+      <tr><td>Shared-memory channel leak</td><td>C5 46.7% · hidden 41.7%</td><td>Leak rate through the shared-memory channel; share missed by output-only audits</td><td class="src">AgentLeak — <a href="https://arxiv.org/abs/2602.11510">arXiv 2602.11510</a> / IEEE Access 2026</td></tr>
+      <tr><td>LoCoMo answer-key error</td><td>6.4% wrong (ceiling 93.6%); default judge FPR 62.8%</td><td>Why LoCoMo is appendix-only</td><td class="src">Documented in the benchmark inventory (research notes, agent_benchmarks.md) with per-claim links</td></tr>
+      <tr><td>Agent Memory Leaderboard</td><td>cycle 2 opens 20 Sep 2026; 136 teams, 69 evaluated</td><td>Public submission window</td><td class="src"><a href="https://agentmemoryleaderboard.ai/">agentmemoryleaderboard.ai</a></td></tr>
+      <tr><td>Publication-set budget</td><td>$0.75–3.5k API; 8–11 engineering days</td><td>MEME ×3 + ForgetEval + AgentLeak + LongMemEval-M + Memora + Harbor/THOL paired coding A/B</td><td class="src">Our estimate; per-harness costs in research notes (agent_benchmarks.md)</td></tr>
+    </table>
+  </section>
+
+  <section id="market">
+    <p class="eyebrow">Market and competitor claims (vendor-reported unless stated)</p>
+    <table class="data">
+      <tr><th>Figure</th><th>Value</th><th>Note</th><th>Source</th></tr>
+      <tr><td>YC 2026 companies scanned</td><td>660</td><td>W26 199 · Spring 195 · S26 236 · F26 30; keyword filter then manual read</td><td class="src"><a href="https://yc-oss.github.io/api/batches/winter-2026.json">yc-oss batch API</a> (winter/spring/summer/fall-2026.json), retrieved 2 Sep 2026</td></tr>
+      <tr><td>YC "company brain" companies</td><td>5</td><td>Hyper, Memory Store, Savant, Alloovium, Glen</td><td class="src">YC directory one-liners: <a href="https://www.ycombinator.com/companies/hyper-4">Hyper</a>, <a href="https://www.ycombinator.com/companies/memory-store">Memory Store</a>, <a href="https://www.ycombinator.com/companies/savant">Savant</a>, <a href="https://www.ycombinator.com/companies/alloovium">Alloovium</a>, <a href="https://www.ycombinator.com/companies/glen">Glen</a></td></tr>
+      <tr><td>YC token-reduction-only companies</td><td>7</td><td>Quotient, ReasonBlocks, Codag, Compresr, The Token Company, Mentlio, Conifer</td><td class="src">Same directory dump; company pages linked in research notes</td></tr>
+      <tr><td>Products surveyed</td><td>91</td><td>Non-YC sweep: 27 funded, 26 PH/Show HN, 9 LinkedIn, 21 OSS, 8 adjacent</td><td class="src">Research notes, agent_nonyc_sweep.md (each row carries its URL)</td></tr>
+      <tr><td>Engram funding</td><td>$98M, $600M valuation</td><td>Co-led General Catalyst + Modern Capital; parametric "Cartridges"; "up to 100× fewer tokens" is a vendor claim</td><td class="src"><a href="https://www.vktr.com/ai-news/engram-launches-with-98m-to-give-enterprise-ai-memory/">VKTR</a>; <a href="https://www.prnewswire.com/news-releases/engram-launches-with-98m-to-build-ai-that-actually-knows-your-organization-302807126.html">PR Newswire</a></td></tr>
+      <tr><td>Highlight AI</td><td>$40M Series A</td><td>Khosla lead, Mar 2026</td><td class="src"><a href="https://www.businesswire.com/news/home/20260324500318/en/">Business Wire</a></td></tr>
+      <tr><td>Jedify</td><td>$24M Series A</td><td>Norwest + Snowflake Ventures, Jun 2026; claims "70% less tokens with same accuracy"</td><td class="src"><a href="https://www.globenewswire.com/news-release/2026/06/10/3309625/0/en/">GlobeNewswire</a>; <a href="https://jedify.com/">jedify.com</a></td></tr>
+      <tr><td>Twin1</td><td>$20M seed</td><td>Bessemer co-lead, Aug 2026</td><td class="src"><a href="https://www.morningstar.com/news/business-wire/20260820540841/">Business Wire via Morningstar</a></td></tr>
+      <tr><td>Mem0 on roles</td><td>"Mem0 doesn't have that model, and honestly, most memory layers don't yet"</td><td>Published 2 Sep 2026; scoping by <code>user_id/agent_id/app_id/run_id</code> "enforced at the storage layer"</td><td class="src"><a href="https://mem0.ai/blog/ai-agent-memory-governance-meaning-best-practices-for-secure-memory">mem0.ai blog</a></td></tr>
+      <tr><td>Zep ABAC</td><td>policy sets, attributes at ingest projected onto derived nodes, default-deny, report_only</td><td>Enterprise plan only</td><td class="src"><a href="https://help.getzep.com/policy-based-access-control">help.getzep.com</a></td></tr>
+      <tr><td>Glen claim</td><td>"about a 29% reduction in token spend and 21% reduction in task completion time"</td><td>"Internal evals"; the only public source is one blog post: 100 PRs replayed on one repo, Codex "5.5", 5 runs/arm, no data</td><td class="src"><a href="https://www.ycombinator.com/launches/SvL-glen-a-shared-learning-layer-for-all-the-agents-in-your-organization">YC launch</a>; <a href="https://tryglen.com/blog/replaying-100-prs">tryglen.com/blog/replaying-100-prs</a>; CLI read: <code>@tryglen/cli</code> 0.33.0 (npm)</td></tr>
+      <tr><td>Sentra on its own scores</td><td>Cascade 40 · Absence 43 · Deletion 50</td><td>Self-run on MEME; Sentra: "treat them as vendor-reported until independent replication"</td><td class="src"><a href="https://www.sentra.app/">sentra.app</a>; <a href="https://www.sentra.app/articles/memorybench">sentra.app/articles/memorybench</a></td></tr>
+      <tr><td>Enterprise vendors: no derived-artifact labels</td><td>Glean, Copilot, Gemini Enterprise, Amazon Q, Notion, Salesforce</td><td>Glean Project artifacts take the project ACL not the source ACL; Copilot memory has no audit events and no retention; Salesforce audit DMOs do not inherit sharing; Notion custom agents "operate with their own independent permissions"</td><td class="src"><a href="https://docs.glean.com/user-guide/knowledge/projects/how-projects-work">docs.glean.com</a>; <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-personalization-memory">learn.microsoft.com</a>; vendor pages in research notes (agent_enterprise_docs, agent_saas_vendors)</td></tr>
+      <tr><td>Amazon Q Business</td><td>closed to new customers</td><td>"no longer open to new customers… new feature requests will no longer be considered"</td><td class="src"><a href="https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/qbusiness-availability-change.html">AWS docs</a></td></tr>
+    </table>
+  </section>
+
+  <section id="prior">
+    <p class="eyebrow">Prior art the brief cites instead of claiming</p>
+    <table class="data">
+      <tr><th>Piece</th><th>Prior work</th><th>Note</th><th>Source</th></tr>
+      <tr><td>Cascade update problem</td><td>MemoRepair</td><td>Named and formalized; min-cut repair</td><td class="src"><a href="https://arxiv.org/abs/2605.07242">arXiv 2605.07242</a></td></tr>
+      <tr><td>Transactional belief commit with cascading repair, permissions on records</td><td>MemTX</td><td>5.5M protocol states property-checked; blocks republishing a private parent into a wider scope</td><td class="src"><a href="https://arxiv.org/abs/2607.23929">arXiv 2607.23929</a></td></tr>
+      <tr><td>Governed evolving memory, "flag for revision" rule</td><td>GEM / MemState</td><td></td><td class="src"><a href="https://arxiv.org/abs/2605.26252">arXiv 2605.26252</a></td></tr>
+      <tr><td>Label lattice, join on derivation</td><td>Denning 1976; Fides</td><td>Fides: readers lattice, join = intersection, output takes join of context</td><td class="src">CACM 10.1145/360051.360056; <a href="https://arxiv.org/abs/2505.23643">arXiv 2505.23643</a></td></tr>
+      <tr><td>Hierarchical salted prefix caches</td><td>vLLM RFC #16016 option B</td><td>Serving-layer; provider APIs expose no salt, hence literal nonces</td><td class="src"><a href="https://github.com/vllm-project/vllm/issues/16016">vllm #16016</a>; CVE-2025-46570</td></tr>
+      <tr><td>Prefix-cache timing side channel</td><td>PromptPeek; Song et al.; Gu et al.</td><td>Peer-reviewed anchors: NDSS 2025; IEEE TIFS 2025; ICML 2025</td><td class="src">10.14722/ndss.2025.241772; 10.1109/TIFS.2025.3622954; <a href="https://arxiv.org/abs/2502.07776">arXiv 2502.07776</a></td></tr>
+      <tr><td>Rate–distortion bound on agent memory</td><td>Colaco &amp; Lahjouji</td><td>Layer-agnostic lower bound across KV cache, prompts, agent memory — verified via arXiv API 2 Sep 2026</td><td class="src"><a href="https://arxiv.org/abs/2607.08032">arXiv 2607.08032</a></td></tr>
+      <tr><td>Source-reliability estimation for retrieval</td><td>RA-RAG</td><td>Cross-checks sources to estimate reliability; not run over a persistent agent store</td><td class="src"><a href="https://arxiv.org/abs/2410.22954">arXiv 2410.22954</a></td></tr>
+      <tr><td>Four-valued (Belnap–Dunn) logic with an LLM</td><td>Allen et al. 2025</td><td>Detected 92 gluts in a medical KB; no memory store with four-valued cells</td><td class="src"><a href="https://arxiv.org/abs/2507.09751">arXiv 2507.09751</a></td></tr>
+      <tr><td>Conformal risk control for RAG</td><td>TRAQ; C-RAG; MiCP; CCPO</td><td>Zero results for conformal + agent-memory injection as of 2 Sep 2026</td><td class="src">Research notes, agent_math_prior_art.md (search log included)</td></tr>
+      <tr><td>Trailing memory block keeps the cache</td><td>Zep</td><td>1.3× / 1.6× / 1.9× cheaper at 18 / 36 / 54 turns</td><td class="src"><a href="https://blog.getzep.com/where-you-put-memory-in-the-prompt-can-cut-your-token-bill-up-to-2x/">blog.getzep.com</a></td></tr>
+    </table>
+  </section>
+
+  <section id="internal">
+    <p class="eyebrow">Tideline internals referenced (public repo, verified by reading)</p>
+    <table class="data">
+      <tr><th>Claim on the brief</th><th>Where</th><th>Note</th></tr>
+      <tr><td>Pre-filter by origin before ranking</td><td><code>src/agents/memory/records.ts</code> (list/search paths)</td><td>Candidate set filtered by origin before scoring</td></tr>
+      <tr><td>Deterministic supersession, bi-temporal close</td><td><code>records.ts</code> <code>invalidate()</code></td><td>Sets <code>validTo</code>, archives, mints <code>contradicts</code> + <code>transition</code>; no propagation walk</td></tr>
+      <tr><td>No <code>depends_on</code> edge kind</td><td><code>src/agents/memory/links.ts</code></td><td>Kinds: supersedes, transition, corrects, derived_from, supports, causes, caused_by, part_of, precedes, follows, enables, blocks</td></tr>
+      <tr><td>Provenance pointers have zero producers</td><td><code>sourcePointers</code> field, extraction and consolidation paths</td><td>Field exists; nothing writes it</td></tr>
+      <tr><td>Subagents run with owner scope</td><td><code>src/agents/subagent-runner.ts</code></td><td><code>senderIsOwner: true</code> hardcoded</td></tr>
+      <tr><td>Exposure validates truth</td><td><code>src/agents/memory/dream.ts</code></td><td>CONFIRM when <code>accessCount + 1 ≥ 3</code></td></tr>
+      <tr><td>Memory backend slot</td><td><code>src/agents/extensions/registry.ts</code></td><td>Slots: memory · contextEngine · compaction · agentHarness</td></tr>
+    </table>
+    <p class="fine" style="margin-top:20px">Line numbers are omitted here because the public repository moves; the research notes carry them at the commit they were read.</p>
+  </section>
+
+</div>
+</body>
+</html>
