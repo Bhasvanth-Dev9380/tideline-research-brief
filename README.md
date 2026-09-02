@@ -1,6 +1,8 @@
 # Tideline — 25-day research brief
 
-**Private.** Companion to the [Brigade strategy brief](https://github.com/Bhasvanth-Dev9380/brigade-strategy-brief), same rules, same design system.
+**Live:** https://bhasvanth-dev9380.github.io/tideline-research-brief/
+
+Companion to the [Brigade strategy brief](https://github.com/Bhasvanth-Dev9380/brigade-strategy-brief), same rules, same design system.
 
 A two-page brief on the 25 days (2–27 September 2026) that build Tideline v2's foundation — the mathematical models and the protocol, each measured on a public harness with a cost column — before any product work.
 
